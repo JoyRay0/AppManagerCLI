@@ -66,13 +66,13 @@ class App{
             echo "[INFO] No Apps Found.\n\n";
 
             echo "> First add an app:\n";
-            echo "  php app add\n\n";
+            echo "   app or php app add\n\n";
 
             echo "> Available commands:\n";
-            echo "   php app list\n";
-            echo "   php app add\n";
-            echo "   php app delete\n";
-            echo "   php app reset\n";
+            echo "   app or php app list\n";
+            echo "   app or php app add\n";
+            echo "   app or php app delete\n";
+            echo "   app or php app reset\n";
 
             return;
 
@@ -180,10 +180,10 @@ class App{
 
         }else{
 
-            echo "Your app selection number : (e.g 0-9)\n";
+            echo "App selection number : (e.g 0-9)\n";
             $number = readline("=>");
 
-            echo "Your app title:\n";
+            echo "App title:\n";
             $title = readline("=>");
 
             echo "1st command:\n";
@@ -311,7 +311,7 @@ class App{
 
     private function Delete_command(): void{
 
-        echo "Enter your app selection number:\n";
+        echo "App selection number:\n";
 
         $number = readline("=>"); //user input
 
@@ -378,7 +378,7 @@ class App{
             echo "[INFO] Empty App List\n\n";
 
             echo "> Add your first app:\n";
-            echo "   php app add\n\n";
+            echo "   app or php app add\n\n";
             return;
 
         }
