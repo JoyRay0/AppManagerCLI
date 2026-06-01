@@ -482,7 +482,7 @@ class App{
 
     private function save_log(string $type, string $message){
 
-        date_default_timezone_set("Asia/Dhaka");
+        date_default_timezone_set("UTC");
 
         $date = date("Y-m-d h:i:s A");
 
