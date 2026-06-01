@@ -39,11 +39,11 @@ class App{
 
                 echo "\n";
                 echo "Command not found\n";
-                echo "Use : php app\n";
-                echo "Use : php app list\n";
-                echo "Use : php app add\n";
-                echo "Use : php app delete\n";
-                echo "Use : php app reset\n";
+                echo "Use : app or php app\n";
+                echo "Use : app list or php app list\n";
+                echo "Use : app add or php app add\n";
+                echo "Use : app delete or php app delete\n";
+                echo "Use : .app reset or php app reset\n";
 
             })()
 
@@ -457,7 +457,7 @@ class App{
             echo "[INFO] Empty App List\n\n";
 
             echo "> Add your first app:\n";
-            echo "   php app add\n\n";
+            echo "   app add or php app add\n\n";
 
         }
 
