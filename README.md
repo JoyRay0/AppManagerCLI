@@ -11,8 +11,9 @@ A lightweight, blazing-fast, and modular Command Line Interface (CLI) applicatio
 ## ✨ Features
 
 *   **⚡ High Performance:** Zero bloat, instant execution, and minimal system footprint.
+
 *   **📂 Central Gateway Architecture:** Handle all remote configurations and API endpoints efficiently from a centralized setup.
-*   **🛠️ Dynamic Arguments & Flags:** Seamlessly parse runtime variables, custom environments, and dynamic scripts.
+
 *   **🎨 Clean Terminal UI:** Standard-compliant, structured, and color-coded console output for smooth debugging.
 
 ---
@@ -56,17 +57,17 @@ php app
 ### 🛠️ Usage & Commands
 
 ```bash
-./app [commands]
+./app [commands] or php app [commands]
 ```
 
 ### Supported Commands
 
 | Command | Description |
 |---------|-------------|
-| `./app list` | Display the comprehensive list of available commands and titles. |
-| `./app add` | Initialize and add a new application to the manager. |
-| `./app delete` | Safely remove an application from tracking.  |
-| `./app reset` | Hard-reset the entire environment setup and configs. |
+| `./app list or php app list` | Display the comprehensive list of available commands and titles. |
+| `./app add or php app add` | Initialize and add a new application to the manager. |
+| `./app delete or php app delete` | Safely remove an application from tracking.  |
+| `./app reset or php app reset` | Hard-reset the entire environment setup and configs. |
 
 ### 📦 Data & Activity Tracking
 
