@@ -70,6 +70,6 @@ sudo chmod +x "$INSTALL_PATH"
 
 echo -e " "
 echo -e "${GREEN}[✔] Download Complete${NC}"
-echo -e "Now run [/app] on your terminal"
+echo -e "Now run [app] on your terminal"
 
 
