@@ -46,7 +46,7 @@ If you prefer to configure it yourself, follow these steps:
 
 1. **Install PHP :** Ensure PHP is installed on your system.
 
-2. **Download Release :** Download the  `app` execution file from the latest release folder.
+2. **Download Release :** Download the  `app` execution file from the latest `release` folder.
 
 3. **Run the App :** Navigate to the folder and execute the file via PHP:
 
@@ -57,21 +57,27 @@ php app
 ### 🛠️ Usage & Commands
 
 ```bash
-./app [commands] or php app [commands]
+app
+```
+
+or
+
+```bash
+php app
 ```
 
 ### Supported Commands
 
 | Command | Description |
 |---------|-------------|
-| `./app list or php app list` | Display the comprehensive list of available commands and titles. |
-| `./app add or php app add` | Initialize and add a new application to the manager. |
-| `./app delete or php app delete` | Safely remove an application from tracking.  |
-| `./app reset or php app reset` | Hard-reset the entire environment setup and configs. |
+| `app list` or `php app list` | Display the comprehensive list of available commands and titles. |
+| `app add` or `php app add` | Initialize and add a new application to the manager. |
+| `app delete` or `php app delete` | Safely remove an application from tracking.  |
+| `app reset` or `php app reset` | Hard-reset the entire environment setup and configs. |
 
 ### 📦 Data & Activity Tracking
 
-The core system automatically structures and persists your settings and activity logs inside the root directory:
+The core system automatically structures and persists your settings and activity logs inside the `/home/username/appmanager` or `/Users/username/appmanager` directory:
 
 - `app_commands.json` : This file tracks the internal indexing of all added applications. It dynamically lists every app with its specific Number, Title, and Command configuration.
 
