@@ -19,7 +19,7 @@ A lightweight, blazing-fast, and modular Command Line Interface (CLI) applicatio
 
 ## 🚀 Getting Started
 
-### 📋 Prerequisites
+## 📋 Prerequisites
 
 Before installing, ensure your environment meets the following requirements:
 *   **Operating System:** Linux (Debian/Ubuntu, RHL/Fedora, Arch etc.) or macOS
@@ -27,11 +27,11 @@ Before installing, ensure your environment meets the following requirements:
 
 ---
 
-### ⚙️ Installation
+## ⚙️ Installation
 
 Choose **one** of the methods below to get started:
 
-**Method 1: Quick Auto-Installation (Recommended)**
+### Method 1: Quick Auto-Installation (Recommended)
 
 Run the following single-line command in your terminal. It will automatically download and set up the `AppManagerCLI` environment for you:
 
@@ -39,7 +39,7 @@ Run the following single-line command in your terminal. It will automatically do
 curl -sSL https://raw.githubusercontent.com/JoyRay0/AppManagerCLI/main/installer.sh | bash
 ```
 
-**Method 2: Manual Installation**
+### Method 2: Manual Installation
 
 If you prefer to configure it yourself, follow these steps:
 
