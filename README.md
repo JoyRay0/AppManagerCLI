@@ -68,6 +68,14 @@ php app
 | `./app delete` | Safely remove an application from tracking.  |
 | `./app reset` | Hard-reset the entire environment setup and configs. |
 
+### 📦 Data & Activity Tracking
+
+The core system automatically structures and persists your settings and activity logs inside the root directory:
+
+- `app_commands.json` : This file tracks the internal indexing of all added applications. It dynamically lists every app with its specific Number, Title, and Command configuration.
+
+- `app_log.txt` : A runtime log file that maintains full traceability. Every time a command (add, delete, reset) is executed, it records timestamps and status updates for debugging.
+
 ### 🤝 Contributing
 
 Contributions make the open-source community an amazing place to learn, inspire, and create. Any contributions you make are greatly appreciated.
