@@ -33,7 +33,7 @@ Before installing, ensure your environment meets the following requirements:
 Choose **one** of the methods below to get started:
 
 ### Method 1: Quick Auto-Installation (Recommended)
-
+---
 Run the following single-line command in your terminal. It will automatically download and set up the `AppManagerCLI` environment for you:
 
 ```bash
@@ -41,7 +41,7 @@ curl -sSL https://raw.githubusercontent.com/JoyRay0/AppManagerCLI/main/installer
 ```
 
 ### Method 2: Manual Installation
-
+---
 If you prefer to configure it yourself, follow these steps:
 
 1. **Install PHP :** Ensure PHP is installed on your system.
@@ -55,7 +55,7 @@ php app
 ```
 
 ### 🛠️ Usage & Commands
-
+---
 ```bash
 app
 ```
@@ -78,6 +78,7 @@ php app
 
 
 ### 📦 Data & Activity Tracking
+---
 
 The core system automatically structures and persists your settings and activity logs inside the `/home/username/appmanager` or `/Users/username/appmanager` directory:
 
@@ -86,7 +87,7 @@ The core system automatically structures and persists your settings and activity
 - `app_log.txt` : A runtime log file that maintains full traceability. Every time a command (add, delete, reset) is executed, it records timestamps and status updates for debugging.
 
 ### 🤝 Contributing
-
+---
 Contributions make the open-source community an amazing place to learn, inspire, and create. Any contributions you make are greatly appreciated.
 
 1. **Fork the Project**
@@ -100,5 +101,5 @@ Contributions make the open-source community an amazing place to learn, inspire,
 5. **Open a Pull Request**
 
 ### 📄 License
-
+---
 Distributed under the MIT License. See `LICENSE` for more information.
