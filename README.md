@@ -22,7 +22,7 @@ A lightweight, blazing-fast, and modular Command Line Interface (CLI) applicatio
 ## 📋 Prerequisites
 
 Before installing, ensure your environment meets the following requirements:
-*   **Operating System:** Linux (Debian/Ubuntu, RHL/Fedora, Arch etc.) or macOS
+*   **Operating System:** Linux (Debian/Ubuntu based, RHL/Fedora based, Arch based etc.) or macOS
 *   **Runtime:** PHP-cli or PHP (Version 7.4 or higher recommended)
 
 
