@@ -74,6 +74,8 @@ php app
 | `app add` or `php app add` | Initialize and add a new application to the manager. |
 | `app delete` or `php app delete` | Safely remove an application from tracking.  |
 | `app reset` or `php app reset` | Hard-reset the entire environment setup and configs. |
+| `app run [id]` or `php app run [id]` | Launch an installed application directly using its assigned number or ID. |
+
 
 ### 📦 Data & Activity Tracking
 
