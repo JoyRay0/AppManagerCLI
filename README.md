@@ -26,7 +26,7 @@ Before installing, ensure your environment meets the following requirements:
 *   **Operating System:** Linux (Debian/Ubuntu, RHL/Fedora, Arch etc.) or macOS
 *   **Runtime:** PHP-cli or PHP (Version 7.4 or higher recommended)
 
----
+
 
 ## ⚙️ Installation
 
@@ -54,8 +54,8 @@ If you prefer to configure it yourself, follow these steps:
 php app
 ```
 
-### 🛠️ Usage & Commands
----
+## 🛠️ Usage & Commands
+
 ```bash
 app
 ```
@@ -66,7 +66,7 @@ or
 php app
 ```
 
-### Supported Commands
+## Supported Commands
 
 | Command | Description |
 |---------|-------------|
@@ -77,8 +77,7 @@ php app
 | `app run [id]` or `php app run [id]` | Launch an installed application directly using its assigned number or ID. |
 
 
-### 📦 Data & Activity Tracking
----
+## 📦 Data & Activity Tracking
 
 The core system automatically structures and persists your settings and activity logs inside the `/home/username/appmanager` or `/Users/username/appmanager` directory:
 
@@ -86,8 +85,8 @@ The core system automatically structures and persists your settings and activity
 
 - `app_log.txt` : A runtime log file that maintains full traceability. Every time a command (add, delete, reset) is executed, it records timestamps and status updates for debugging.
 
-### 🤝 Contributing
----
+## 🤝 Contributing
+
 Contributions make the open-source community an amazing place to learn, inspire, and create. Any contributions you make are greatly appreciated.
 
 1. **Fork the Project**
@@ -100,6 +99,6 @@ Contributions make the open-source community an amazing place to learn, inspire,
 
 5. **Open a Pull Request**
 
-### 📄 License
----
+## 📄 License
+
 Distributed under the MIT License. See `LICENSE` for more information.
