@@ -66,7 +66,7 @@ or
 php app
 ```
 
-## Supported Commands
+### Supported Commands
 
 | Command | Description |
 |---------|-------------|
