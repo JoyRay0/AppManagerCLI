@@ -6,7 +6,7 @@ A lightweight, blazing-fast, and modular Command Line Interface (CLI) applicatio
 [![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20macOS-orange)]()
 [![Language: PHP](https://img.shields.io/badge/language-PHP-777BB4.svg?style=flat&logo=php&logoColor=white)]()
 
----
+
 
 ## ✨ Features
 
@@ -16,7 +16,6 @@ A lightweight, blazing-fast, and modular Command Line Interface (CLI) applicatio
 
 *   **🎨 Clean Terminal UI:** Standard-compliant, structured, and color-coded console output for smooth debugging.
 
----
 
 ## 🚀 Getting Started
 
@@ -25,7 +24,6 @@ A lightweight, blazing-fast, and modular Command Line Interface (CLI) applicatio
 Before installing, ensure your environment meets the following requirements:
 *   **Operating System:** Linux (Debian/Ubuntu, RHL/Fedora, Arch etc.) or macOS
 *   **Runtime:** PHP-cli or PHP (Version 7.4 or higher recommended)
-
 
 
 ## ⚙️ Installation
