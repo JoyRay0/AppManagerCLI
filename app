@@ -17,7 +17,7 @@ class App{
         
     }
 
-    public function run(string $command) : void{
+    public function run(string $command, string $app_number) : void{
 
         if(!is_dir($this->path . "/appmanager")) mkdir($this->path . "/appmanager", 0755, true);
 
@@ -34,6 +34,8 @@ class App{
             "delete" => $this->Delete_command(),
 
             "list" => $this->List_command(),
+
+            "run" => $this->Run_command($app_number),
 
             default => (function(){
 
@@ -55,7 +57,9 @@ class App{
 
         echo "App:\n\n";
 
-        // all list
+        //===================================
+        // All app list
+        //===================================
 
         $result = json_decode(file_get_contents($this->app_json), true) ?? []; 
 
@@ -74,7 +78,7 @@ class App{
             echo "   app or php app delete\n";
             echo "   app or php app reset\n";
 
-            return;
+            exit;
 
         }
 
@@ -89,14 +93,14 @@ class App{
 
         $user_number = readline("=>");      // user input
 
-        $s_user_number = trim(preg_replace("/[^0-9]/", "", $user_number ?? ""));    //sanitize user input
+        $s_user_number = trim(preg_replace("/[^\p{N}]/", "", $user_number ?? ""));    //sanitize user input
 
         if(empty($s_user_number)){
 
             $this->save_log("ERROR", "Invalid number");
 
             echo "[ERROR] Invalid number\n";
-            return;
+            exit;
 
         }
 
@@ -122,8 +126,7 @@ class App{
 
             $this->save_log("ERROR", "Not Found");
 
-            echo "[ERROR] Not Found\n";
-            return;
+            $this->app_print("[ERROR] Not Found");
 
         }
 
@@ -135,7 +138,7 @@ class App{
 
             if(!empty($command)){
 
-                $this->save_log("COMMAND", "$command");
+                $this->save_log("COMMAND", "[$command] is executed");
 
                 passthru(escapeshellcmd($command) . " 2>&1");
 
@@ -157,54 +160,73 @@ class App{
         $fifth_command = "";
 
         $is_single_command = false;
+        $is_multiple_command = false;
 
         echo "Select Command:\n";
         $this->output("1", "Single command");
         $this->output("2", "Multiple command");
 
         //user input
+        echo "\n";
         $selected_number = readline("=>");
+        echo "\n";
 
         if($selected_number === "1"){
 
             $is_single_command = true;
 
-            echo "Your app selection number : (e.g 0-9)\n";
+            echo "App selection number :\n";
             $number = readline("=>");
+            echo "\n";
 
-            echo "Your app title:\n";
+            echo "App title :\n";
             $title = readline("=>");
+            echo "\n";
 
-            echo "Your app command:\n";
+            echo "App command :\n";
             $first_command = readline("=>");
+
+
+        }elseif($selected_number === "2"){
+
+            $is_multiple_command = true;
+
+            echo "App selection number :\n";
+            $number = readline("=>");
+            echo "\n";
+
+            echo "App title :\n";
+            $title = readline("=>");
+            echo "\n";
+
+            echo "1st command :\n";
+            $first_command = readline("=>");
+            echo "\n";
+
+            echo "2nd command :\n";
+            $second_command = readline("=>");
+            echo "\n";
+
+            echo "3rd command :\n";
+            $third_command = readline("=>");
+            echo "\n";
+
+            echo "4th command :\n";
+            $fourth_command = readline("=>");
+            echo "\n";
+
+            echo "5th command :\n";
+            $fifth_command = readline("=>");
 
         }else{
 
-            echo "App selection number : (e.g 0-9)\n";
-            $number = readline("=>");
-
-            echo "App title:\n";
-            $title = readline("=>");
-
-            echo "1st command:\n";
-            $first_command = readline("=>");
-
-            echo "2nd command:\n";
-            $second_command = readline("=>");
-
-            echo "3rd command:\n";
-            $third_command = readline("=>");
-
-            echo "4th command:\n";
-            $fourth_command = readline("=>");
-
-            echo "5th command:\n";
-            $fifth_command = readline("=>");
+            $this->save_log("ERROR", "Invalid Number");
+            $this->app_print("[ERROR] Invalid Number");
 
         }
 
         //sanitizing data
-        $s_number = trim(preg_replace("/[^0-9]/", "", $number ?? ""));
+        $s_number = trim(preg_replace("/[^\p{N}]/", "", $number ?? ""));
         $s_title = trim($title);
         $s1st_command = trim($first_command);
         $s2nd_command = trim($second_command);
@@ -217,9 +239,9 @@ class App{
 
             if(empty($s_number) || empty($s_title) || empty($s1st_command)){
 
-                $this->save_log("ERROR", "Invalid Number, Text or Command");
+                $this->save_log("ERROR", "[$number] [$title] [$first_command] Invalid Number / Text / Command");
 
-                $this->app_print("[ERROR] Invalid Number, Text or Command");
+                $this->app_print("[ERROR] Invalid Number / Text / Command");
 
             }
 
@@ -228,9 +250,9 @@ class App{
             if((empty($s_number) || empty($s_title)) || (empty($s1st_command) && 
             empty($s2nd_command) && empty($s3th_command) && empty($s4th_command) && empty($s5th_command))){
 
-                $this->save_log("ERROR", "Invalid Number, Text or Command");
+                $this->save_log("ERROR", "[$number] [$title] [$first_command] [$second_command] [$third_command] [$fourth_command] [$fifth_command] Invalid Number / Text / Command");
 
-                $this->app_print("[ERROR] Invalid number, text or command");
+                $this->app_print("[ERROR] Invalid Number / Text / Command");
 
             }
 
@@ -246,7 +268,7 @@ class App{
 
                 if(($app["app_number"] ?? null) == $s_number){
 
-                    $this->save_log("ERROR", "Duplicate App Found");
+                    $this->save_log("ERROR", "[$s_number] Duplicate App Found");
 
                     $this->app_print("[ERROR] Duplicate App Found");
 
@@ -293,7 +315,7 @@ class App{
         $insert = file_put_contents($this->app_json, json_encode($app_data, JSON_PRETTY_PRINT | 
         JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE), LOCK_EX);
 
-        chmod("command.json", 0600);
+        chmod($this->app_json, 0600);
             
         if(!$insert){
 
@@ -315,11 +337,11 @@ class App{
 
         $number = readline("=>"); //user input
 
-        $s_number = trim(preg_replace("/[^0-9]/", "", $number ?? ""));  //sanitize number
+        $s_number = trim(preg_replace("/[^\p{N}]/", "", $number ?? ""));  //sanitize number
 
         if(empty($s_number)){
 
-            $this->save_log("ERROR", "Invalid Number");
+            $this->save_log("ERROR", "[$number] Invalid Number");
 
             $this->app_print("[ERROR] Invalid Number");
 
@@ -379,7 +401,7 @@ class App{
 
             echo "> Add your first app:\n";
             echo "   app or php app add\n\n";
-            return;
+            exit;
 
         }
 
@@ -391,7 +413,7 @@ class App{
 
         if(empty($s_input)){
 
-            $this->save_log("ERROR", "Invalid Text");
+            $this->save_log("ERROR", "[$input] Invalid Text");
 
             $this->app_print("[ERROR] Invalid Text");
 
@@ -418,8 +440,7 @@ class App{
         }
 
         $this->save_log("ERROR", "Reset Failed");
-
-        echo "[ERROR] Reset Failed\n";
+        $this->app_print("[ERROR] Reset Failed");
             
     }//fun end
 
@@ -463,6 +484,70 @@ class App{
 
     }//fun end
 
+    private function Run_command(string $app_number) : void{
+
+        //=================================
+        // Sanitizing the number
+        //=================================
+        $s_app_number = preg_replace("/[^\p{N}]/", "", $app_number);
+
+        $app = json_decode(file_get_contents($this->app_json), true) ?? [];
+
+        if(empty($s_app_number)){
+
+            $this->app_print("[ERROR] Invalid Number");
+            $this->save_log("ERROR", "[$app_number] Invalid Number");
+
+        }
+
+        if(!empty($app)){
+
+            $isFound = false;
+            $app_number = "";
+            $app_command = [];
+
+            //==============================
+            // Search app number in list
+            //==============================
+
+            foreach ($app as $list){
+
+                if(($list["app_number"] ?? null) == $s_app_number){
+
+                    $isFound = true;
+                    $app_number = $list["app_number"];
+                    $app_command = $list["app_command"];
+                    break;
+
+                }
+
+            }
+
+            if(!$isFound){
+
+                $this->app_print("[ERROR] App Not Found");
+                $this->save_log("ERROR", "[$s_app_number] Not Found in List");
+
+            }
+
+            foreach ($app_command as $command){
+
+                $this->save_log("[COMMAND]", "[$command] is executed");
+
+                passthru(escapeshellcmd($command) . " 2>&1");
+
+            }
+
+
+        }else{
+
+            $this->app_print("[ERROR] Not Found");
+            $this->save_log("ERROR", "App List Not Found");
+
+        }
+
+    }//fun end
+
     private function output(string $number, string $text) : void{
 
         $bold_text = "\e[1m";
@@ -496,6 +581,7 @@ class App{
 }
 
 $command = $argv[1] ?? "home";
+$app_number = $argv[2] ?? "";
 $app = new App();
-$app->run($command);
+$app->run($command, $app_number);
 
