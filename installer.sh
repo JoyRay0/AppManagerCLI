@@ -8,7 +8,7 @@ BLUE="\033[0;34m"
 RED="\033[0;31m"
 NC="\033[0m" #No color
 
-#Gtihub info
+#Github info
 GITHUB_USER="JoyRay0"
 REPO_NAME="AppManagerCLI"
 VERSION="v1.0.3"
