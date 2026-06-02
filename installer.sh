@@ -51,7 +51,7 @@ then
 
     else
 
-        echo -e "${RED}[✖] Linux Distro Not dected. Please Install PHP-cli manually${NC}"
+        echo -e "${RED}[✖] Linux Distro Not detected. Please Install PHP-cli manually${NC}"
         exit 1
 
     fi
