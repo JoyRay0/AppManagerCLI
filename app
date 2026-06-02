@@ -534,7 +534,7 @@ class App{
 
             foreach ($app_command as $command){
 
-                $this->save_log("[COMMAND]", "[$command] is executed");
+                $this->save_log("COMMAND", "[$command] is executed");
 
                 passthru(escapeshellcmd($command) . " 2>&1");
 
