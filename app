@@ -13,13 +13,19 @@ class App{
 
         $this->path = getenv("HOME");
         $this->app_json = $this->path . "/appmanager/app_command.json";
-        $this->app_log = $this->path . "/appmanager/app_log.txt";
+        $this->app_log = $this->path . "/appmanager/log";
         
     }
 
-    public function run(string $command, string $app_number) : void{
+    public function run(string $command, string $app_text) : void{
+
+        //============================================
+        // Creating folder and json file
+        //============================================
 
         if(!is_dir($this->path . "/appmanager")) mkdir($this->path . "/appmanager", 0755, true);
+
+        if(!is_dir($this->app_log)) mkdir($this->app_log, 0755, true);
 
         if(!file_exists($this->app_json)) file_put_contents($this->app_json, "[]", LOCK_EX);
 
@@ -35,7 +41,9 @@ class App{
 
             "list" => $this->List_command(),
 
-            "run" => $this->Run_command($app_number),
+            "run" => $this->Run_command($app_text),
+
+            "log" => $this->Clear_logs($app_text),
 
             default => (function(){
 
@@ -47,6 +55,7 @@ class App{
                 echo "Use : app delete or php app delete\n";
                 echo "Use : app reset or php app reset\n";
                 echo "Use : app run [id] or php app run [id]\n";
+                echo "Use : app log clear or php app log clear\n";
 
             })()
 
@@ -99,9 +108,9 @@ class App{
 
         if(empty($s_user_app_id)){
 
-            $this->save_log("ERROR", "Invalid ID");
+            $this->save_log("ERROR", "Invalid id");
 
-            echo "[ERROR] Invalid ID\n";
+            echo "[ERROR] Invalid id\n";
             exit;
 
         }
@@ -126,9 +135,9 @@ class App{
 
         if(!$isFound){
 
-            $this->save_log("ERROR", "Not Found");
+            $this->save_log("ERROR", "Not found");
 
-            $this->app_print("[ERROR] Not Found");
+            $this->app_print("[ERROR] Not found");
 
         }
 
@@ -227,8 +236,8 @@ class App{
 
         }else{
 
-            $this->save_log("ERROR", "Invalid ID");
-            $this->app_print("[ERROR] Invalid ID");
+            $this->save_log("ERROR", "Invalid id");
+            $this->app_print("[ERROR] Invalid id");
 
         }
 
@@ -252,9 +261,9 @@ class App{
 
             if(empty($s_id) || empty($s_title) || empty($s1st_command)){
 
-                $this->save_log("ERROR", "[$id] [$title] [$first_command] Invalid ID / Text / Command");
+                $this->save_log("ERROR", "[$id] [$title] [$first_command] Invalid id / text / command");
 
-                $this->app_print("[ERROR] Invalid ID / Text / Command");
+                $this->app_print("[ERROR] Invalid id / text / command");
 
             }
 
@@ -263,9 +272,9 @@ class App{
             if((empty($s_id) || empty($s_title)) || (empty($s1st_command) && 
             empty($s2nd_command) && empty($s3th_command) && empty($s4th_command) && empty($s5th_command))){
 
-                $this->save_log("ERROR", "[$id] [$title] [$first_command] [$second_command] [$third_command] [$fourth_command] [$fifth_command] Invalid ID / Text / Command");
+                $this->save_log("ERROR", "[$id] [$title] [$first_command] [$second_command] [$third_command] [$fourth_command] [$fifth_command] Invalid id / text / command");
 
-                $this->app_print("[ERROR] Invalid ID / Text / Command");
+                $this->app_print("[ERROR] Invalid id / text / command");
 
             }
 
@@ -283,9 +292,9 @@ class App{
 
                 if(($app["app_id"] ?? null) == $s_id){
 
-                    $this->save_log("ERROR", "[$s_id] Duplicate App Found");
+                    $this->save_log("ERROR", "[$s_id] Duplicate app found");
 
-                    $this->app_print("[ERROR] Duplicate App Found");
+                    $this->app_print("[ERROR] Duplicate app found");
 
                 }
 
@@ -336,21 +345,21 @@ class App{
             
         if(!$insert){
 
-            $this->save_log("ERROR", "App Not Saved");
+            $this->save_log("ERROR", "App not saved");
 
-            $this->app_print("[ERROR] App Not Saved");
+            $this->app_print("[ERROR] App not saved");
 
         }
 
-        $this->save_log("OK", "App Saved Successful");
+        $this->save_log("OK", "[$title] App saved successful");
 
-        $this->app_print("[OK] App Saved Successful");
+        $this->app_print("[OK] App saved successful");
             
     }//fun end
 
     private function Delete_command(): void{
 
-        echo "App selection number:\n";
+        echo "App id:\n";
 
         $id = readline("=>"); //user input
 
@@ -358,9 +367,9 @@ class App{
 
         if(empty($s_id)){
 
-            $this->save_log("ERROR", "[$id] Invalid ID");
+            $this->save_log("ERROR", "[$id] Invalid id");
 
-            $this->app_print("[ERROR] Invalid ID");
+            $this->app_print("[ERROR] Invalid id");
 
         }
 
@@ -394,15 +403,15 @@ class App{
             file_put_contents($this->app_json, json_encode($app_list, JSON_PRETTY_PRINT | 
                 JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE), LOCK_EX);
 
-            $this->save_log("OK", "Delete Successful");
+            $this->save_log("OK", "Delete successful");
 
-            $this->app_print("[OK] Delete Successful");
+            $this->app_print("[OK] Delete successful");
 
         }
 
-        $this->save_log("ERROR", "Delete Failed");
+        $this->save_log("ERROR", "Delete failed");
 
-        $this->app_print("[ERROR] Delete Failed");
+        $this->app_print("[ERROR] Delete failed");
         
     }//fun end
 
@@ -414,7 +423,7 @@ class App{
 
         if(empty($app_list)){
 
-            $this->save_log("INFO", "Empty App List");
+            $this->save_log("INFO", "Empty app list");
 
             echo "[INFO] Empty App List\n\n";
 
@@ -432,9 +441,9 @@ class App{
 
         if(empty($s_input)){
 
-            $this->save_log("ERROR", "[$input] Invalid Text");
+            $this->save_log("ERROR", "[$input] Invalid text");
 
-            $this->app_print("[ERROR] Invalid Text");
+            $this->app_print("[ERROR] Invalid text");
 
         }
 
@@ -452,14 +461,14 @@ class App{
 
             file_put_contents($this->app_json, "[]", LOCK_EX);
 
-            $this->save_log("OK", "Reset Successful");
+            $this->save_log("OK", "Reset successful");
 
-            $this->app_print("[OK] Reset Successful");
+            $this->app_print("[OK] Reset successful");
 
         }
 
-        $this->save_log("ERROR", "Reset Failed");
-        $this->app_print("[ERROR] Reset Failed");
+        $this->save_log("ERROR", "Reset failed");
+        $this->app_print("[ERROR] Reset failed");
             
     }//fun end
 
@@ -498,9 +507,9 @@ class App{
 
         }else{
 
-            $this->save_log("INFO", "Empty App List");
+            $this->save_log("INFO", "Empty app list");
 
-            echo "[INFO] Empty App List\n\n";
+            echo "[INFO] Empty app list\n\n";
 
             echo "> Add your first app:\n";
             echo "   app add or php app add\n\n";
@@ -520,8 +529,8 @@ class App{
 
         if(empty($s_app_id)){
 
-            $this->app_print("[ERROR] Invalid Number");
-            $this->save_log("ERROR", "[$app_id] Invalid Number");
+            $this->app_print("[ERROR] Invalid id");
+            $this->save_log("ERROR", "[$app_id] Invalid id");
 
         }
 
@@ -550,8 +559,8 @@ class App{
 
             if(!$isFound){
 
-                $this->app_print("[ERROR] App Not Found");
-                $this->save_log("ERROR", "[$s_app_id] Not Found in List");
+                $this->app_print("[ERROR] App not found");
+                $this->save_log("ERROR", "[$s_app_id] Not found in list");
 
             }
 
@@ -566,10 +575,45 @@ class App{
 
         }else{
 
-            $this->app_print("[ERROR] Not Found");
-            $this->save_log("ERROR", "App List Not Found");
+            $this->app_print("[ERROR] Not found");
+            $this->save_log("ERROR", "App list not found");
 
         }
+
+    }//fun end
+
+    private function Clear_logs(string $text) : void{
+
+        if($text !== "clear"){
+
+            $this->save_log("INFO", "Use : app log clear or php app log clear");
+            $this->app_print("[INFO] Use : app log clear or php app log clear");
+
+        }
+
+        echo "Are you sure? [Y/n]:\n";
+        $user_confirmation = readline("=>");
+
+        if(strtolower($user_confirmation) === "y"){
+
+            $files = glob($this->app_log . "/*.txt");
+
+            foreach ($files as $file){
+
+                unlink($file);
+
+            }
+
+            $this->save_log("OK", "Logs deleted successfully");
+            $this->app_print("[OK] Logs deleted successfully");
+
+        }else{
+
+            $this->save_log("ERROR", "Logs delete failed");
+            $this->app_print("[ERROR] Logs delete failed");
+
+        }
+
 
     }//fun end
 
@@ -597,9 +641,15 @@ class App{
 
         $date = date("Y-m-d h:i:s A");
 
+        //=============================
+        // Monthly log file
+        //=============================
+
+        $month = date("Y-m");
+
         $log = "[$date] >> [$type] >> $message";
 
-        file_put_contents($this->app_log, $log . PHP_EOL, FILE_APPEND);
+        file_put_contents($this->app_log . "/{$month}_log.txt", $log . PHP_EOL, FILE_APPEND);
 
     }//fun end
 
@@ -607,7 +657,7 @@ class App{
 }//class
 
 $command = $argv[1] ?? "home";
-$app_id = $argv[2] ?? "";
+$app_text = $argv[2] ?? "";
 $app = new App();
-$app->run($command, $app_id);
+$app->run($command, $app_text);
 
