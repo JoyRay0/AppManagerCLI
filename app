@@ -465,7 +465,7 @@ class App{
 
     private function List_command(): void{
 
-        
+        $green_color = "\033[32m";
         $bold_text = "\e[1m";
         $reset = "\e[0m";
 
