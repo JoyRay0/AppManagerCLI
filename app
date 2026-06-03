@@ -45,7 +45,8 @@ class App{
                 echo "Use : app list or php app list\n";
                 echo "Use : app add or php app add\n";
                 echo "Use : app delete or php app delete\n";
-                echo "Use : .app reset or php app reset\n";
+                echo "Use : app reset or php app reset\n";
+                echo "Use : app run [id] or php app run [id]\n";
 
             })()
 
@@ -61,60 +62,61 @@ class App{
         // All app list
         //===================================
 
-        $result = json_decode(file_get_contents($this->app_json), true) ?? []; 
+        $app_list = json_decode(file_get_contents($this->app_json), true) ?? []; 
 
-        if(empty($result)){
+        if(empty($app_list)){
 
             $this->save_log("INFO", "No Apps Found");
 
             echo "[INFO] No Apps Found.\n\n";
 
             echo "> First add an app:\n";
-            echo "   app or php app add\n\n";
+            echo "   app add or php app add\n\n";
 
             echo "> Available commands:\n";
-            echo "   app or php app list\n";
-            echo "   app or php app add\n";
-            echo "   app or php app delete\n";
-            echo "   app or php app reset\n";
+            echo "   app list or php app list\n";
+            echo "   app add or php app add\n";
+            echo "   app delete or php app delete\n";
+            echo "   app reset or php app reset\n";
+            echo "   app run [id] or php app run [id]\n";
 
             exit;
 
         }
 
-        foreach ($result as $data){
+        foreach ($app_list as $app){
 
-            $this->output($data["app_number"], $data["app_name"]);
+            $this->output($app["app_id"], $app["app_title"]);
 
         }
 
         echo "\n";
-        echo "Selected number:\n";
+        echo "App id:\n";
 
-        $user_number = readline("=>");      // user input
+        $user_app_id = readline("=>");      // user input
 
-        $s_user_number = trim(preg_replace("/[^\p{N}]/", "", $user_number ?? ""));    //sanitize user input
+        $s_user_app_id = trim(preg_replace("/[^\p{N}]/", "", $user_app_id ?? ""));    //sanitize user input
 
-        if(empty($s_user_number)){
+        if(empty($s_user_app_id)){
 
-            $this->save_log("ERROR", "Invalid number");
+            $this->save_log("ERROR", "Invalid ID");
 
-            echo "[ERROR] Invalid number\n";
+            echo "[ERROR] Invalid ID\n";
             exit;
 
         }
 
         //search number
         $isFound = false;
-        $app_name = "";
+        $app_title = "";
         $app_command = [];
 
-        foreach ($result as $list){
+        foreach ($app_list as $list){
 
-            if(($list["app_number"] ?? null) == $s_user_number){
+            if(($list["app_id"] ?? null) == $s_user_app_id){
 
                 $isFound = true;
-                $app_name = $list["app_name"];
+                $app_title = $list["app_title"];
                 $app_command = $list["app_command"];
                 break;
 
@@ -133,7 +135,7 @@ class App{
         echo "\033[H\033[J";
 
         echo "================================================\n";
-        echo"$app_name\n";
+        echo"$app_title\n";
         echo "================================================\n";
         
         foreach ($app_command as $command){
@@ -463,7 +465,7 @@ class App{
 
     private function List_command(): void{
 
-        $green_color = "\033[32m";
+        
         $bold_text = "\e[1m";
         $reset = "\e[0m";
 
@@ -573,10 +575,11 @@ class App{
 
     private function output(string $number, string $text) : void{
 
+        $green_color = "\033[32m";
         $bold_text = "\e[1m";
         $reset = "\e[0m";
 
-        echo "[" . $bold_text . $number . $reset . "]" . " " . $bold_text . $text . $reset . "\n";
+        echo "[" . $green_color . $bold_text . $number . $reset . "]" . " " . $green_color . $bold_text . $text . $reset . "\n";
 
     }//fun end
 
