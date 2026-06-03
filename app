@@ -153,7 +153,7 @@ class App{
     private function Add_command(): void{
 
         //initil items
-        $number = "";
+        $id = "";
         $title = "";
         $first_command = "";
         $second_command = "";
@@ -168,17 +168,20 @@ class App{
         $this->output("1", "Single command");
         $this->output("2", "Multiple command");
 
-        //user input
+        //========================
+        //User input
+        //========================
+
         echo "\n";
-        $selected_number = readline("=>");
+        $selected_id = readline("=>");
         echo "\n";
 
-        if($selected_number === "1"){
+        if($selected_id === "1"){
 
             $is_single_command = true;
 
-            echo "App selection number :\n";
-            $number = readline("=>");
+            echo "App id :\n";
+            $id = readline("=>");
             echo "\n";
 
             echo "App title :\n";
@@ -189,12 +192,12 @@ class App{
             $first_command = readline("=>");
 
 
-        }elseif($selected_number === "2"){
+        }elseif($selected_id === "2"){
 
             $is_multiple_command = true;
 
-            echo "App selection number :\n";
-            $number = readline("=>");
+            echo "App id :\n";
+            $id = readline("=>");
             echo "\n";
 
             echo "App title :\n";
@@ -222,13 +225,16 @@ class App{
 
         }else{
 
-            $this->save_log("ERROR", "Invalid Number");
-            $this->app_print("[ERROR] Invalid Number");
+            $this->save_log("ERROR", "Invalid ID");
+            $this->app_print("[ERROR] Invalid ID");
 
         }
 
-        //sanitizing data
-        $s_number = trim(preg_replace("/[^\p{N}]/", "", $number ?? ""));
+        //=============================
+        //Sanitizing data
+        //=============================
+
+        $s_id = trim(preg_replace("/[^\p{N}]/", "", $id ?? ""));
         $s_title = trim($title);
         $s1st_command = trim($first_command);
         $s2nd_command = trim($second_command);
@@ -236,41 +242,46 @@ class App{
         $s4th_command = trim($fourth_command);
         $s5th_command = trim($fifth_command);
 
-        //empty data checks
+        //===========================
+        //Empty data checks
+        //===========================
+
         if($is_single_command){
 
-            if(empty($s_number) || empty($s_title) || empty($s1st_command)){
+            if(empty($s_id) || empty($s_title) || empty($s1st_command)){
 
-                $this->save_log("ERROR", "[$number] [$title] [$first_command] Invalid Number / Text / Command");
+                $this->save_log("ERROR", "[$id] [$title] [$first_command] Invalid ID / Text / Command");
 
-                $this->app_print("[ERROR] Invalid Number / Text / Command");
+                $this->app_print("[ERROR] Invalid ID / Text / Command");
 
             }
 
         }else{
 
-            if((empty($s_number) || empty($s_title)) || (empty($s1st_command) && 
+            if((empty($s_id) || empty($s_title)) || (empty($s1st_command) && 
             empty($s2nd_command) && empty($s3th_command) && empty($s4th_command) && empty($s5th_command))){
 
-                $this->save_log("ERROR", "[$number] [$title] [$first_command] [$second_command] [$third_command] [$fourth_command] [$fifth_command] Invalid Number / Text / Command");
+                $this->save_log("ERROR", "[$id] [$title] [$first_command] [$second_command] [$third_command] [$fourth_command] [$fifth_command] Invalid ID / Text / Command");
 
-                $this->app_print("[ERROR] Invalid Number / Text / Command");
+                $this->app_print("[ERROR] Invalid ID / Text / Command");
 
             }
 
         }
 
-        //check app in list
+        //================================
+        //Check app in list
+        //================================
 
-        $app_data = json_decode(file_get_contents($this->app_json), true) ?? [];
+        $app_list = json_decode(file_get_contents($this->app_json), true) ?? [];
 
-        if(!empty($app_data)){
+        if(!empty($app_list)){
 
-            foreach ($app_data as $app){
+            foreach ($app_list as $app){
 
-                if(($app["app_number"] ?? null) == $s_number){
+                if(($app["app_id"] ?? null) == $s_id){
 
-                    $this->save_log("ERROR", "[$s_number] Duplicate App Found");
+                    $this->save_log("ERROR", "[$s_id] Duplicate App Found");
 
                     $this->app_print("[ERROR] Duplicate App Found");
 
@@ -280,14 +291,16 @@ class App{
 
         }
 
-        //insert user app in list
+        //===============================
+        //Insert user app in list
+        //===============================
 
         if($is_single_command){
 
             $data = [
 
-                "app_number" => $s_number,
-                "app_name" => $s_title,
+                "app_id" => $s_id,
+                "app_title" => $s_title,
                 "app_command" => [ $s1st_command ]
 
             ];
@@ -296,8 +309,8 @@ class App{
 
             $data = [
 
-                "app_number" => $s_number,
-                "app_name" => $s_title,
+                "app_id" => $s_id,
+                "app_title" => $s_title,
                 "app_command" => [ 
 
                     $s1st_command ?? "",
@@ -312,9 +325,9 @@ class App{
 
         }
 
-        $app_data[] = $data;
+        $app_list[] = $data;
 
-        $insert = file_put_contents($this->app_json, json_encode($app_data, JSON_PRETTY_PRINT | 
+        $insert = file_put_contents($this->app_json, json_encode($app_list, JSON_PRETTY_PRINT | 
         JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE), LOCK_EX);
 
         chmod($this->app_json, 0600);
@@ -337,30 +350,32 @@ class App{
 
         echo "App selection number:\n";
 
-        $number = readline("=>"); //user input
+        $id = readline("=>"); //user input
 
-        $s_number = trim(preg_replace("/[^\p{N}]/", "", $number ?? ""));  //sanitize number
+        $s_id = trim(preg_replace("/[^\p{N}]/", "", $id ?? ""));  //sanitize id
 
-        if(empty($s_number)){
+        if(empty($s_id)){
 
-            $this->save_log("ERROR", "[$number] Invalid Number");
+            $this->save_log("ERROR", "[$id] Invalid ID");
 
-            $this->app_print("[ERROR] Invalid Number");
+            $this->app_print("[ERROR] Invalid ID");
 
         }
 
-        //check app in list
+        //================================
+        //Check app in list
+        //================================
 
-        $app_data = json_decode(file_get_contents($this->app_json), true) ?? [];
+        $app_list = json_decode(file_get_contents($this->app_json), true) ?? [];
         $isDeleted = false;
 
-        if(!empty($app_data)){
+        if(!empty($app_list)){
 
-            foreach ($app_data as $index => $app){
+            foreach ($app_list as $index => $app){
 
-                if(($app["app_number"] ?? null) == $s_number){
+                if(($app["id"] ?? null) == $s_id){
 
-                    unset($app_data[$index]);
+                    unset($app_list[$index]);
                     $isDeleted = true;
                     break;
 
@@ -372,9 +387,9 @@ class App{
 
         if($isDeleted){
 
-            $app_data = array_values($app_data);
+            $app_list = array_values($app_list);
 
-            file_put_contents($this->app_json, json_encode($app_data, JSON_PRETTY_PRINT | 
+            file_put_contents($this->app_json, json_encode($app_list, JSON_PRETTY_PRINT | 
                 JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE), LOCK_EX);
 
             $this->save_log("OK", "Delete Successful");
@@ -393,9 +408,9 @@ class App{
 
         $isUserConfirmed = false;
 
-        $data = json_decode(file_get_contents($this->app_json), true) ?? [];
+        $app_list = json_decode(file_get_contents($this->app_json), true) ?? [];
 
-        if(empty($data)){
+        if(empty($app_list)){
 
             $this->save_log("INFO", "Empty App List");
 
@@ -452,23 +467,29 @@ class App{
         $bold_text = "\e[1m";
         $reset = "\e[0m";
 
-        //all app list
+        //===============================
+        // App list
+        //===============================
             
-        $app = json_decode(file_get_contents($this->app_json), true) ?? [];
+        $app_list = json_decode(file_get_contents($this->app_json), true) ?? [];
 
-        if(!empty($app)){
+        if(!empty($app_list)){
 
             echo " No  >> Name    >> Command\n\n";
 
-            foreach ($app as $app_data){
+            //==============================
+            // Get all app list
+            //==============================
 
-                $number = $app_data["app_number"];
-                $name = $app_data["app_name"];
+            foreach ($app_list as $app_data){
+
+                $id = $app_data["app_id"];
+                $title = $app_data["app_title"];
                 $command = $app_data["app_command"];
 
                 $command = "[ " . implode(" ], [ ", $command) . " ]";
 
-                printf(" %-3s >> %-15s >> %-70s \n", $number, $bold_text . $name . $reset, $green_color . $bold_text . $command . $reset);
+                printf(" %-3s >> %-15s >> %-70s \n", $id, $bold_text . $title . $reset, $green_color . $bold_text . $command . $reset);
 
             }
 
@@ -486,38 +507,38 @@ class App{
 
     }//fun end
 
-    private function Run_command(string $app_number) : void{
+    private function Run_command(string $app_id) : void{
 
         //=================================
-        // Sanitizing the number
+        // Sanitizing the id
         //=================================
-        $s_app_number = preg_replace("/[^\p{N}]/", "", $app_number);
+        $s_app_id = preg_replace("/[^\p{N}]/", "", $app_id);
 
-        $app = json_decode(file_get_contents($this->app_json), true) ?? [];
+        $app_list = json_decode(file_get_contents($this->app_json), true) ?? [];
 
-        if(empty($s_app_number)){
+        if(empty($s_app_id)){
 
             $this->app_print("[ERROR] Invalid Number");
-            $this->save_log("ERROR", "[$app_number] Invalid Number");
+            $this->save_log("ERROR", "[$app_id] Invalid Number");
 
         }
 
-        if(!empty($app)){
+        if(!empty($app_list)){
 
             $isFound = false;
-            $app_number = "";
+            $app_id = "";
             $app_command = [];
 
             //==============================
-            // Search app number in list
+            // Search app id in list
             //==============================
 
-            foreach ($app as $list){
+            foreach ($app_list as $list){
 
-                if(($list["app_number"] ?? null) == $s_app_number){
+                if(($list["app_id"] ?? null) == $s_app_id){
 
                     $isFound = true;
-                    $app_number = $list["app_number"];
+                    $app_id = $list["app_id"];
                     $app_command = $list["app_command"];
                     break;
 
@@ -528,7 +549,7 @@ class App{
             if(!$isFound){
 
                 $this->app_print("[ERROR] App Not Found");
-                $this->save_log("ERROR", "[$s_app_number] Not Found in List");
+                $this->save_log("ERROR", "[$s_app_id] Not Found in List");
 
             }
 
@@ -580,10 +601,10 @@ class App{
     }//fun end
 
 
-}
+}//class
 
 $command = $argv[1] ?? "home";
-$app_number = $argv[2] ?? "";
+$app_id = $argv[2] ?? "";
 $app = new App();
-$app->run($command, $app_number);
+$app->run($command, $app_id);
 
