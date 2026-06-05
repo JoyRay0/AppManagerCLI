@@ -2,7 +2,7 @@
 
 <?php
 
-class App{
+class Appmanager{
 
     private string $app_json;
     private string $app_log;
@@ -49,13 +49,13 @@ class App{
 
                 echo "\n";
                 echo "Command not found\n";
-                echo "Use : app or php app\n";
-                echo "Use : app list or php app list\n";
-                echo "Use : app add or php app add\n";
-                echo "Use : app delete or php app delete\n";
-                echo "Use : app reset or php app reset\n";
-                echo "Use : app run [id] or php app run [id]\n";
-                echo "Use : app log clear or php app log clear\n";
+                echo "Use : appmanager or php appmanager\n";
+                echo "Use : appmanager list or php appmanager list\n";
+                echo "Use : appmanager add or php appmanager add\n";
+                echo "Use : appmanager delete or php appmanager delete\n";
+                echo "Use : appmanager reset or php appmanager reset\n";
+                echo "Use : appmanager run [id] or php appmanager run [id]\n";
+                echo "Use : appmanager log clear or php appmanager log clear\n";
 
             })()
 
@@ -80,14 +80,15 @@ class App{
             echo "[INFO] No Apps Found.\n\n";
 
             echo "> First add an app:\n";
-            echo "   app add or php app add\n\n";
+            echo "   appmanager add or php appmanager add\n\n";
 
             echo "> Available commands:\n";
-            echo "   app list or php app list\n";
-            echo "   app add or php app add\n";
-            echo "   app delete or php app delete\n";
-            echo "   app reset or php app reset\n";
-            echo "   app run [id] or php app run [id]\n";
+            echo "   appmanager list or php appmanager list\n";
+            echo "   appmanager add or php appmanager add\n";
+            echo "   appmanager delete or php appmanager delete\n";
+            echo "   appmanager reset or php appmanager reset\n";
+            echo "   appmanager run [id] or php appmanager run [id]\n";
+            echo "   appmanager log clear or php appmanager log clear\n";
 
             exit;
 
@@ -425,10 +426,10 @@ class App{
 
             $this->save_log("INFO", "Empty app list");
 
-            echo "[INFO] Empty App List\n\n";
+            echo "[INFO] Empty app list\n\n";
 
             echo "> Add your first app:\n";
-            echo "   app or php app add\n\n";
+            echo "   appmanager or php appmanager add\n\n";
             exit;
 
         }
@@ -512,7 +513,7 @@ class App{
             echo "[INFO] Empty app list\n\n";
 
             echo "> Add your first app:\n";
-            echo "   app add or php app add\n\n";
+            echo "   appmanager add or php appmanager add\n\n";
 
         }
 
@@ -658,6 +659,6 @@ class App{
 
 $command = $argv[1] ?? "home";
 $app_text = $argv[2] ?? "";
-$app = new App();
-$app->run($command, $app_text);
+$appmanager = new Appmanager();
+$appmanager->run($command, $app_text);
 
