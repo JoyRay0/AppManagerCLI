@@ -13,7 +13,7 @@ GITHUB_USER="JoyRay0"
 REPO_NAME="AppManagerCLI"
 VERSION="v1.0.3"
 DOWNLOAD_URL="https://github.com/${GITHUB_USER}/${REPO_NAME}/releases/download/${VERSION}/app"
-INSTALL_PATH="/usr/local/bin/app"
+INSTALL_PATH="/usr/local/bin/appmanager"
 
 
 echo -e "${BLUE}==============================${NC}"
