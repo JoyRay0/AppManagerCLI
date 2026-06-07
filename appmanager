@@ -7,6 +7,9 @@ class Appmanager{
     private string $app_json;
     private string $app_log;
     private string $path;
+    private string $ok = "[✔]";
+    private string $error = "[✖]";
+    private string $info = "[ℹ]";
 
     public function __construct()
     {
@@ -75,9 +78,9 @@ class Appmanager{
 
         if(empty($app_list)){
 
-            $this->save_log("INFO", "No Apps Found");
+            $this->save_log($this->info, "No Apps Found");
 
-            echo "[INFO] No Apps Found.\n\n";
+            echo $this->info . " No Apps Found.\n\n";
 
             echo "> First add an app:\n";
             echo "   appmanager add or php appmanager add\n\n";
@@ -87,7 +90,7 @@ class Appmanager{
             echo "   appmanager add or php appmanager add\n";
             echo "   appmanager delete or php appmanager delete\n";
             echo "   appmanager reset or php appmanager reset\n";
-            echo "   appmanager run [id] or php appmanager run [id]\n";
+            echo "   appmanager run <id> or php appmanager run <id>\n";
             echo "   appmanager log clear or php appmanager log clear\n";
 
             exit;
@@ -101,7 +104,7 @@ class Appmanager{
         }
 
         echo "\n";
-        echo "App id:\n";
+        echo "Enter App ID:\n";
 
         $user_app_id = readline("=>");      // user input
 
@@ -109,9 +112,9 @@ class Appmanager{
 
         if(empty($s_user_app_id)){
 
-            $this->save_log("ERROR", "Invalid id");
+            $this->save_log($this->error, "Invalid ID");
 
-            echo "[ERROR] Invalid id\n";
+            echo $this->error . " Invalid ID\n";
             exit;
 
         }
@@ -136,16 +139,16 @@ class Appmanager{
 
         if(!$isFound){
 
-            $this->save_log("ERROR", "Not found");
+            $this->save_log($this->error, "Not Found");
 
-            $this->app_print("[ERROR] Not found");
+            $this->app_print($this->error . " Not Found");
 
         }
 
         echo "\033[H\033[J";
 
         echo "================================================\n";
-        echo"$app_title\n";
+        echo"Launching $app_title\n";
         echo "================================================\n";
         
         foreach ($app_command as $command){
@@ -177,8 +180,8 @@ class Appmanager{
         $is_multiple_command = false;
 
         echo "Select Command:\n";
-        $this->output("1", "Single command");
-        $this->output("2", "Multiple command");
+        $this->output("1", "Single Command");
+        $this->output("2", "Multiple Command");
 
         //========================
         //User input
@@ -192,15 +195,15 @@ class Appmanager{
 
             $is_single_command = true;
 
-            echo "App id :\n";
+            echo "Enter App ID :\n";
             $id = readline("=>");
             echo "\n";
 
-            echo "App title :\n";
+            echo "Enter App Title :\n";
             $title = readline("=>");
             echo "\n";
 
-            echo "App command :\n";
+            echo "Enter App Command :\n";
             $first_command = readline("=>");
 
 
@@ -208,37 +211,37 @@ class Appmanager{
 
             $is_multiple_command = true;
 
-            echo "App id :\n";
+            echo "Enter App ID :\n";
             $id = readline("=>");
             echo "\n";
 
-            echo "App title :\n";
+            echo "Enter App Title :\n";
             $title = readline("=>");
             echo "\n";
 
-            echo "1st command :\n";
+            echo "Enter 1st Command :\n";
             $first_command = readline("=>");
             echo "\n";
 
-            echo "2nd command :\n";
+            echo "Enter 2nd Command :\n";
             $second_command = readline("=>");
             echo "\n";
 
-            echo "3rd command :\n";
+            echo "Enter 3rd Command :\n";
             $third_command = readline("=>");
             echo "\n";
 
-            echo "4th command :\n";
+            echo "Enter 4th Command :\n";
             $fourth_command = readline("=>");
             echo "\n";
 
-            echo "5th command :\n";
+            echo "Enter 5th Command :\n";
             $fifth_command = readline("=>");
 
         }else{
 
-            $this->save_log("ERROR", "Invalid id");
-            $this->app_print("[ERROR] Invalid id");
+            $this->save_log($this->error, "Invalid ID");
+            $this->app_print($this->error . " Invalid ID");
 
         }
 
@@ -262,9 +265,9 @@ class Appmanager{
 
             if(empty($s_id) || empty($s_title) || empty($s1st_command)){
 
-                $this->save_log("ERROR", "[$id] [$title] [$first_command] Invalid id / text / command");
+                $this->save_log($this->error, "[$id] [$title] [$first_command] Invalid ID / Text / Command");
 
-                $this->app_print("[ERROR] Invalid id / text / command");
+                $this->app_print($this->error . " Invalid ID / Text / Command");
 
             }
 
@@ -273,9 +276,9 @@ class Appmanager{
             if((empty($s_id) || empty($s_title)) || (empty($s1st_command) && 
             empty($s2nd_command) && empty($s3th_command) && empty($s4th_command) && empty($s5th_command))){
 
-                $this->save_log("ERROR", "[$id] [$title] [$first_command] [$second_command] [$third_command] [$fourth_command] [$fifth_command] Invalid id / text / command");
+                $this->save_log($this->error, "[$id] [$title] [$first_command] [$second_command] [$third_command] [$fourth_command] [$fifth_command] Invalid ID / Text / Command");
 
-                $this->app_print("[ERROR] Invalid id / text / command");
+                $this->app_print($this->error . " Invalid ID / Text / Command");
 
             }
 
@@ -293,9 +296,9 @@ class Appmanager{
 
                 if(($app["app_id"] ?? null) == $s_id){
 
-                    $this->save_log("ERROR", "[$s_id] Duplicate app found");
+                    $this->save_log($this->error, "[$s_id] Duplicate App Found");
 
-                    $this->app_print("[ERROR] Duplicate app found");
+                    $this->app_print($this->error . " Duplicate App Found");
 
                 }
 
@@ -346,21 +349,21 @@ class Appmanager{
             
         if(!$insert){
 
-            $this->save_log("ERROR", "App not saved");
+            $this->save_log($this->error, "App Not Saved");
 
-            $this->app_print("[ERROR] App not saved");
+            $this->app_print($this->error . " App Not Saved");
 
         }
 
-        $this->save_log("OK", "[$title] App saved successful");
+        $this->save_log($this->ok, "[$title] App Saved Successfully");
 
-        $this->app_print("[OK] App saved successful");
+        $this->app_print($this->ok . " App Saved Successfully");
             
     }//fun end
 
     private function Delete_command(): void{
 
-        echo "App id:\n";
+        echo "Enter App ID :\n";
 
         $id = readline("=>"); //user input
 
@@ -368,9 +371,9 @@ class Appmanager{
 
         if(empty($s_id)){
 
-            $this->save_log("ERROR", "[$id] Invalid id");
+            $this->save_log($this->error, "[$id] Invalid ID");
 
-            $this->app_print("[ERROR] Invalid id");
+            $this->app_print($this->error . " Invalid ID");
 
         }
 
@@ -404,15 +407,15 @@ class Appmanager{
             file_put_contents($this->app_json, json_encode($app_list, JSON_PRETTY_PRINT | 
                 JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE), LOCK_EX);
 
-            $this->save_log("OK", "Delete successful");
+            $this->save_log($this->ok, "Delete Successfully");
 
-            $this->app_print("[OK] Delete successful");
+            $this->app_print($this->ok . " Delete Successfully");
 
         }
 
-        $this->save_log("ERROR", "Delete failed");
+        $this->save_log($this->error, "Delete Failed");
 
-        $this->app_print("[ERROR] Delete failed");
+        $this->app_print($this->error . " Delete Failed");
         
     }//fun end
 
@@ -424,9 +427,9 @@ class Appmanager{
 
         if(empty($app_list)){
 
-            $this->save_log("INFO", "Empty app list");
+            $this->save_log($this->info, "Empty App List");
 
-            echo "[INFO] Empty app list\n\n";
+            echo $this->info . " Empty App List\n\n";
 
             echo "> Add your first app:\n";
             echo "   appmanager or php appmanager add\n\n";
@@ -442,9 +445,9 @@ class Appmanager{
 
         if(empty($s_input)){
 
-            $this->save_log("ERROR", "[$input] Invalid text");
+            $this->save_log($this->error, "[$input] Invalid Text");
 
-            $this->app_print("[ERROR] Invalid text");
+            $this->app_print($this->error . " Invalid Text");
 
         }
 
@@ -462,14 +465,14 @@ class Appmanager{
 
             file_put_contents($this->app_json, "[]", LOCK_EX);
 
-            $this->save_log("OK", "Reset successful");
+            $this->save_log($this->ok, "Reset Successfully");
 
-            $this->app_print("[OK] Reset successful");
+            $this->app_print($this->ok . " Reset Successfully");
 
         }
 
-        $this->save_log("ERROR", "Reset failed");
-        $this->app_print("[ERROR] Reset failed");
+        $this->save_log($this->error, "Reset Failed");
+        $this->app_print($this->error . " Reset Failed");
             
     }//fun end
 
@@ -508,9 +511,9 @@ class Appmanager{
 
         }else{
 
-            $this->save_log("INFO", "Empty app list");
+            $this->save_log($this->info, "Empty App List");
 
-            echo "[INFO] Empty app list\n\n";
+            echo $this->info . " Empty App List\n\n";
 
             echo "> Add your first app:\n";
             echo "   appmanager add or php appmanager add\n\n";
@@ -530,8 +533,8 @@ class Appmanager{
 
         if(empty($s_app_id)){
 
-            $this->app_print("[ERROR] Invalid id");
-            $this->save_log("ERROR", "[$app_id] Invalid id");
+            $this->save_log($this->error, "[$app_id] Invalid ID");
+            $this->app_print($this->error . " Invalid ID");
 
         }
 
@@ -560,8 +563,8 @@ class Appmanager{
 
             if(!$isFound){
 
-                $this->app_print("[ERROR] App not found");
-                $this->save_log("ERROR", "[$s_app_id] Not found in list");
+                $this->save_log($this->error, "[$s_app_id] Not Found in List");
+                $this->app_print($this->error . " App Not Found");
 
             }
 
@@ -576,8 +579,8 @@ class Appmanager{
 
         }else{
 
-            $this->app_print("[ERROR] Not found");
-            $this->save_log("ERROR", "App list not found");
+            $this->save_log($this->error, "App List Not Found");
+            $this->app_print($this->error . " Not Found");
 
         }
 
@@ -605,13 +608,13 @@ class Appmanager{
 
             }
 
-            $this->save_log("OK", "Logs deleted successfully");
-            $this->app_print("[OK] Logs deleted successfully");
+            $this->save_log($this->ok, "Logs Deleted Successfully");
+            $this->app_print($this->ok . " Logs Deleted Successfully");
 
         }else{
 
-            $this->save_log("ERROR", "Logs delete failed");
-            $this->app_print("[ERROR] Logs delete failed");
+            $this->save_log($this->error, "Logs Delete Failed");
+            $this->app_print($this->error . " Logs Delete Failed");
 
         }
 
