@@ -136,7 +136,7 @@ Enter 5th Command :
 [✔] App Saved Successfully
 ```
 
-### ▶  See the App  and run App
+### ▶  See the App  and Run App via ID
 ```bash
 $ appmanager
 
