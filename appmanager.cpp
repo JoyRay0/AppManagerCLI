@@ -4,7 +4,6 @@ int main() {
 
     Log logeer;
 
-
     return 0;
 
 }
