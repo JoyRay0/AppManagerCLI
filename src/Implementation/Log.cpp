@@ -9,11 +9,13 @@
 
 Log::Log() {
 
-    std::filesystem::create_directories(folder);
+    const std::string home = std::getenv("HOME") ? std::getenv("HOME") : "";
+
+    std::filesystem::create_directories(home + folder);
 
     const std::string filePath = getFileName();
 
-    file.open(filePath, std::ios::app);
+    file.open(folder + filePath, std::ios::app);
 
     if (!file.is_open()) {
 
@@ -43,30 +45,38 @@ std::string Log::getTime() {
 
 std::string Log::getFileName() {
 
+    const auto now = std::chrono::system_clock::now();
 
+    std::time_t t = std::chrono::system_clock::to_time_t(now);
+
+    std::stringstream ss;
+
+    ss << std::put_time(std::localtime(&t), "%Y-%m") << ".txt";
+
+    return ss.str();
 
 }
 
 void Log::info(const std::string &message) {
 
-    file << "[" << getTime() << "]" << ">>" << "[ℹ]" << ">>" << message << std::endl;
+    file << "[" << getTime() << "]" << " >> " << "[ℹ]" << " >> " << message << std::endl;
 
 }
 
 void Log::success(const std::string &message) {
 
-    file << "[" << getTime() << "]" << ">>" << "[✔]" << ">>" << message << std::endl;
+    file << "[" << getTime() << "]" << " >> " << "[✔]" << " >> " << message << std::endl;
 
 }
 
 void Log::error(const std::string &message) {
 
-    file << "[" << getTime() << "]" << ">>" << "[✖]" << ">>" << message << std::endl;
+    file << "[" << getTime() << "]" << " >> " << "[✖]" << " >> " << message << std::endl;
 
 }
 
 void Log::command(const std::string &message) {
 
-    file << "[" << getTime() << "]" << ">>" << "[COMMAND]" << ">>" << message << std::endl;
+    file << "[" << getTime() << "]" << " >> " << "[COMMAND]" << " >> " << message << std::endl;
 
 }
