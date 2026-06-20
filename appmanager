@@ -590,8 +590,8 @@ class Appmanager{
 
         if($text !== "clear"){
 
-            $this->save_log("INFO", "Use : app log clear or php app log clear");
-            $this->app_print("[INFO] Use : app log clear or php app log clear");
+            $this->save_log("INFO", "Use : appmanager log clear or php appmanager log clear");
+            $this->app_print("[INFO] Use : appmanager log clear or php appmanager log clear");
 
         }
 
