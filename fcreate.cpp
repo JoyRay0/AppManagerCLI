@@ -42,6 +42,7 @@ int main() {
     }
 
     //header
+    headerFile << "#pragma once" << std::endl;
     headerFile << "#include " << "<string>" << std::endl;
     headerFile << "#include " << "<fstream>" << std::endl;
     headerFile << "\n\n" << std::endl;
