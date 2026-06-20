@@ -4,10 +4,17 @@ project(AppManagerCLI)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-include_directories(src/Header)
-include_directories(src/Implementation)
-
 add_executable(AppManagerCLI
         src/Header/Log.h
         src/Implementation/Log.cpp
-        appmanager.cpp)
+        appmanager.cpp
+        src/Header/App.h
+        src/Implementation/App.cpp
+        src/lib/json.hpp
+        )
+
+target_include_directories(AppManagerCLI PRIVATE
+        src/Header
+        src/Implementation
+        src/lib
+)
