@@ -1,4 +1,4 @@
-#include "Log.h"
+#include "../Header/Log.h"
 
 #include <string>
 #include <filesystem>
@@ -15,13 +15,15 @@ Log::Log() {
 
     const std::string filePath = getFileName();
 
-    file.open(folder + filePath, std::ios::app);
+    file.open(folder + filePath);
 
     if (!file.is_open()) {
 
         throw std::runtime_error("Failed to open log file :" + filePath);
 
     }
+
+    file.close();
 
 }
 
