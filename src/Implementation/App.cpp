@@ -218,6 +218,7 @@ void App::add_command() {
     std::vector<std::string> commands;
     std::string tem_command_data = "";
     bool inside = false;
+    json app;
 
     //==========================================
     // User input for save id, title, commands
@@ -282,11 +283,24 @@ void App::add_command() {
 
         }
 
+    }//loop
 
+    //============================
+    // Creating JSON object
+    //============================
 
-    }
+    app["app_id"] = app_id;
+    app["app_title"] = app_title;
+    app["app_command"] = commands;
 
+    write_json_file.open(home_dir + appmanager_folder + json_file_name, std::ios::app);
 
+    write_json_file << app << std::endl;
+    
+    write_json_file.close();
+
+    log.success("Application saved successfully");
+    print(success + "Application saved successfully");
 
 }
 
