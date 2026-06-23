@@ -208,21 +208,84 @@ void App::run_command(const std::string& id) {
 
 void App::add_command() {
 
-    std::vector<std::string> menu = {"Single command", "Multiple command"};
+    //=====================
+    // Initialize variable
+    //=====================
 
-    int selected = 0;
+    std::string app_id = "";
+    std::string app_title = "";
+    std::string app_command = "";
+    std::vector<std::string> commands;
+    std::string tem_command_data = "";
+    bool inside = false;
 
-    while (true) {
+    //==========================================
+    // User input for save id, title, commands
+    //==========================================
 
-        for (int i = 0; i < menu.size(); i++) {
+    //app id
+    std::cout << "Id :" << std::endl;
+    std::cout << ">";
+    getline(std::cin, app_id);
 
-            std::cout << "→" << " " << menu[i] << std::endl;
-            std::cout << " " << " " << menu[i] << std::endl;
+    if (app_id.empty()) {
 
+        log.error("Empty app id found");
+        print(error + "Invalid id");
+        return;
+    }
+
+    //app title
+    std::cout << "Title :" << std::endl;
+    std::cout << ">";
+    getline(std::cin, app_title);
+
+    if (app_title.empty()) {
+
+        log.error("Empty app title found");
+        print(error + "Invalid title");
+        return;
+    }
+
+    //app command
+    std::cout << "Commands :" << std::endl;
+    std::cout << ">";
+    getline(std::cin, app_command);
+
+    if (app_command.empty()) {
+
+        log.error("Empty commands found");
+        print(error + "Invalid commands");
+        return;
+    }
+
+    //=============================
+    // Separating commands
+    //=============================
+    
+    for (const char c_command : app_command) {
+
+        if (c_command == '"') {
+
+            if (inside) {
+
+                commands.push_back(tem_command_data);
+                tem_command_data = "";
+
+            }
+
+            inside = !inside;
+
+        }else if (inside) {
+
+            tem_command_data = tem_command_data + c_command;
 
         }
 
-    }//loop
+
+
+    }
+
 
 
 }
