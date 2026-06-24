@@ -1,15 +1,21 @@
 #pragma once
 
 #include "Log.h"
+#include "tabulate.hpp"
+#include "json.hpp"
 
 #include <string>
 #include <fstream>
+
+using namespace tabulate;
+using json = nlohmann::json;
 
 class App{
 
     private:
 
         Log log;
+        Table table;
 
         std::ofstream write_json_file;
         std::ifstream read_json_file;
