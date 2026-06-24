@@ -217,8 +217,12 @@ void App::add_command() {
     std::string app_command = "";
     std::vector<std::string> commands;
     std::string tem_command_data = "";
-    bool inside = false;
-    json app;
+    bool is_inside = false;
+    bool is_duplicate_id = false;
+
+    json app;   //Creating object
+    json root = json::parse(json_file_name); //Opening json file
+
 
     //==========================================
     // User input for save id, title, commands
@@ -268,22 +272,50 @@ void App::add_command() {
 
         if (c_command == '"') {
 
-            if (inside) {
+            if (is_inside) {
 
                 commands.push_back(tem_command_data);
                 tem_command_data = "";
 
             }
 
-            inside = !inside;
+            is_inside = !is_inside;
 
-        }else if (inside) {
+        }else if (is_inside) {
 
             tem_command_data = tem_command_data + c_command;
 
         }
 
     }//loop
+
+    if (!root.is_array()) {
+
+        root = json::array();
+
+    }
+
+    //==================================
+    // Checking
+    //==================================
+
+    for (auto& item : root) {
+
+        if (item["app_id"] == app_id) {
+
+            is_duplicate_id = true;
+
+        }
+
+    }
+
+    if (is_duplicate_id) {
+
+        log.error("Duplicate id found");
+        print(error + "Duplicate id found");
+        return;
+
+    }
 
     //============================
     // Creating JSON object
@@ -293,11 +325,7 @@ void App::add_command() {
     app["app_title"] = app_title;
     app["app_command"] = commands;
 
-    write_json_file.open(home_dir + appmanager_folder + json_file_name, std::ios::app);
-
-    write_json_file << app << std::endl;
-    
-    write_json_file.close();
+    root.push_back(app);
 
     log.success("Application saved successfully");
     print(success + "Application saved successfully");
