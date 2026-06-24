@@ -156,6 +156,10 @@ void App::run_command(const std::string& id) {
 
     json app = json::parse(json_file_name);
 
+    //=========================================
+    // Checking empty JSON
+    //=========================================
+
     if (app.is_array() && app.empty()) {
 
         log.error("Empty app list");
@@ -163,6 +167,10 @@ void App::run_command(const std::string& id) {
         return;
 
     }
+
+    //=================================
+    // Fetching JSON data
+    //=================================
 
     for (auto& data : app) {
 
