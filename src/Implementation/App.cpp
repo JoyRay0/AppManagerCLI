@@ -5,9 +5,6 @@
 #include <filesystem>
 #include <vector>
 #include <cstdlib>
-#include "json.hpp"
-
-using json = nlohmann::json;
 
 App::App() {
 
@@ -431,6 +428,46 @@ void App::reset_command() {
 }
 
 void App::list() {
+
+    //=============================
+    // Initialize variable
+    //=============================
+
+    json app = json::parse(json_file_name);
+
+    if (!app.is_array() && app.empty()) {
+
+        app = json::array();
+        log.error("Empty app list found");
+        empty_app_info();
+        return;
+
+    }
+
+    table.add_row({"No", "Title", "Command"});
+
+    for (const auto& data : app) {
+
+        std::string command;
+
+        for (const auto& cmd : data["app_command"]) {
+
+            if (!command.empty()) {
+
+                command += ", ";
+
+            }
+
+            command += cmd;
+
+        }
+
+        table.add_row({
+            data["app_id"].get<std::string>(),
+            data["app_title"].get<std::string>(),
+            command});
+
+    }
 
 }
 
