@@ -63,7 +63,7 @@ void App::home() {
 
     for (auto& data : app) {
 
-        output(data["app_id"], data["app_title"]);
+        output(data["app_id"].get<std::string>(), data["app_title"].get<std::string>());
 
     }
 
@@ -79,10 +79,10 @@ void App::home() {
 
     for (auto& data : app) {
 
-        if (data["app_id"] == user_choice) {
+        if (data["app_id"].get<std::string>() == user_choice) {
 
             is_app_id_found = true;
-            app_title = data["app_title"];
+            app_title = data["app_title"].get<std::string>();
 
             for (auto& cmd : data["app_command"]) {
 
@@ -158,7 +158,7 @@ void App::run_command(const std::string& id) {
 
     for (auto& data : app) {
 
-        if (data["app_id"] == id) {
+        if (data["app_id"].get<std::string>() == id) {
 
             is_app_id_found = true;
             app_title = data["app_title"];
@@ -292,7 +292,7 @@ void App::add_command() {
 
     for (auto& item : root) {
 
-        if (item["app_id"] == app_id) {
+        if (item["app_id"].get<std::string>() == app_id) {
 
             is_duplicate_id = true;
 
@@ -348,7 +348,7 @@ void App::delete_command(const std::string& id) {
 
     for (auto& item : app) {
 
-        if (item["app_id"] == id) {
+        if (item["app_id"].get<std::string>() == id) {
 
             is_app_id_found = true;
             break;
