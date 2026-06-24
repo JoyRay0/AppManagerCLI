@@ -149,16 +149,14 @@ void App::run_command(const std::string& id) {
     //=================================
 
     std::string json_content;
-    json app_data;
     bool is_app_id_found = false;
     std::string app_id = "";
+    std::string app_title = "";
     std::vector<std::string> app_commands;
 
-    read_json_file.open(home_dir + appmanager_folder + json_file_name);
+    json app = json::parse(json_file_name);
 
-    getline(read_json_file, json_content);
-
-    if (json_content == "[]") {
+    if (app.is_array() && app.empty()) {
 
         log.error("Empty app list");
         empty_app_info();
@@ -166,18 +164,14 @@ void App::run_command(const std::string& id) {
 
     }
 
-    read_json_file >> app_data;
-
-    read_json_file.close();
-
-    for (auto& data : app_data) {
+    for (auto& data : app) {
 
         if (data["app_id"] == id) {
 
             is_app_id_found = true;
-            app_id = data["app_id"];
+            app_title = data["app_title"];
 
-            for (std::string command : app_commands) {
+            for (std::string command : data["app_command"]) {
 
                 app_commands.push_back(command);
 
@@ -197,12 +191,17 @@ void App::run_command(const std::string& id) {
 
     }
 
+    std::system("clear");
+
+    std::cout << "======================================" << std::endl;
+    std::cout << "Launching " + app_title << std::endl;
+    std::cout << "======================================" << std::endl;
+
     for (const std::string& command : app_commands) {
 
         std::system(command.c_str());
 
     }
-
 
 }
 
