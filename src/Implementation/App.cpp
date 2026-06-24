@@ -47,35 +47,30 @@ void App::home() {
 
     std::string user_choice;
     std::string json_content = "";
-    json app_data;
     bool is_valid_digit = false;
     bool is_app_id_found = false;
     std::string app_title = "";
     std::vector<std::string> app_commands;
 
-    read_json_file.open(home_dir + appmanager_folder + json_file_name);
+    json app = json::parse(json_file_name);
 
-    getline(read_json_file, json_content);
+    if (!app.is_array() && app.empty()) {
 
-    if (json_content == "[]") {
-
+        app = json::array();
         log.error("No app data found");
         empty_app_info();
         return;
 
     }
 
-    read_json_file >> app_data;
 
-    read_json_file.close();
-
-    for (auto& data : app_data) {
+    for (auto& data : app) {
 
         output(data["app_id"], data["app_title"]);
 
     }
 
-    std::cout << "=>";
+    std::cout << ">";
     getline(std::cin, user_choice);
 
     for (const char number : user_choice) {
@@ -101,7 +96,7 @@ void App::home() {
 
     }
 
-    for (auto& data : app_data) {
+    for (auto& data : app) {
 
         if (data["app_id"] == user_choice) {
 
