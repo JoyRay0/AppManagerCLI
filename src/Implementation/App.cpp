@@ -255,7 +255,7 @@ void App::add_command() {
     }
 
     //app command
-    std::cout << "Commands :" << std::endl;
+    std::cout << R"(Commands (use double quotes and spaces to separate commands. e.g: "A" "B" "C" "D 'd'"):)" << std::endl;
     std::cout << ">";
     getline(std::cin, app_command);
 
