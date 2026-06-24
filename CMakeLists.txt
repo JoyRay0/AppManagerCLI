@@ -11,6 +11,7 @@ add_executable(AppManagerCLI
         src/Header/App.h
         src/Implementation/App.cpp
         src/lib/json.hpp
+        src/lib/tabulate.hpp
         )
 
 target_include_directories(AppManagerCLI PRIVATE
