@@ -345,6 +345,38 @@ void App::delete_command(const std::string& id) {
 
     }
 
+    //========================================
+    // Checking app id in JSON file
+    //========================================
+
+    for (auto& item : app) {
+
+        if (item["app_id"] == id) {
+
+            is_app_id_found = true;
+            break;
+
+        }else {
+
+            is_app_id_found = false;
+
+        }
+
+    }
+
+    if (!is_app_id_found) {
+
+        log.error("[" + app_id + "]" + "Id not found");
+        print(error + "Id not found");
+        return;
+
+    }
+
+    //============================================
+    // Removing object from JSON array via id
+    //============================================
+
+    app.erase(id);
 
 
 }
