@@ -26,6 +26,7 @@ class App{
         void print(const std::string& message);
         void help_print(const std::string& cmd_name, const std::string& description);
         void empty_app_info();
+        bool check_id(const std::string& id);
 
 
     public:
@@ -35,7 +36,7 @@ class App{
         void home();
         void add_command();
         void run_command(const std::string& id);
-        void delete_command();
+        void delete_command(const std::string& id);
         void reset_command();
         void log_clear(const std::string& text);
         void list();

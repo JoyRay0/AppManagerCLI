@@ -73,27 +73,11 @@ void App::home() {
     std::cout << ">";
     getline(std::cin, user_choice);
 
-    for (const char number : user_choice) {
+    if (!check_id(user_choice)) {
 
-        if (!isdigit(number)) {
-
-            is_valid_digit = false;
-            break;
-
-        }else {
-
-            is_valid_digit = true;
-
-        }
-
-    }
-
-    if (!is_valid_digit) {
-
-        log.error("[" + user_choice + "]" + " Invalid app id");
-        print(error + "Invalid app id");
+        log.error("Empty app id found");
+        print(error + "Invalid id");
         return;
-
     }
 
     for (auto& data : app) {
@@ -150,6 +134,14 @@ void App::run_command(const std::string& id) {
     std::vector<std::string> app_commands;
 
     json app = json::parse(json_file_name);
+
+
+    if (!check_id(app_id)) {
+
+        log.error("Empty app id found");
+        print(error + "Invalid id");
+        return;
+    }
 
     //=========================================
     // Checking empty JSON
@@ -235,7 +227,7 @@ void App::add_command() {
     std::cout << ">";
     getline(std::cin, app_id);
 
-    if (app_id.empty()) {
+    if (!check_id(app_id)) {
 
         log.error("Empty app id found");
         print(error + "Invalid id");
@@ -334,7 +326,25 @@ void App::add_command() {
 
 }
 
-void App::delete_command() {
+void App::delete_command(const std::string& id) {
+
+    //=================================
+    // Initialized variable
+    //=================================
+
+    json app = json::parse(json_file_name);
+
+    std::string app_id = "";
+    bool is_app_id_found = false;
+
+    if (!check_id(id)) {
+
+        log.error("Empty id found");
+        print(error + "Invalid id");
+        return;
+
+    }
+
 
 
 }
@@ -434,6 +444,31 @@ void App::log_clear(const std::string& text) {
         print(error + "Logs delete failed");
 
     }
+
+}
+
+bool App::check_id(const std::string& id) {
+
+    bool is_valid_id = false;
+
+    if (id.empty()) is_valid_id = false;
+
+    for (const char number : id) {
+
+        if (!isdigit(number)) {
+
+            is_valid_id = false;
+            break;
+
+        }else {
+
+            is_valid_id = true;
+
+        }
+
+    }
+
+    return is_valid_id;
 
 }
 
