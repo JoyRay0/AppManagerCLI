@@ -296,7 +296,7 @@ void App::add_command() {
     }
 
     //==================================
-    // Checking
+    // Checking duplicate id
     //==================================
 
     for (auto& item : root) {
