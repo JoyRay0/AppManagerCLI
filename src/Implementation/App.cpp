@@ -383,18 +383,18 @@ void App::delete_command(const std::string& id) {
 
 void App::reset_command() {
 
-    std::string json_content;
+    //==================================
+    // Initialize variable
+    //==================================
+
     std::string user_confirm;
     bool is_confirmed = false;
+    json app = json::parse(json_file_name);
 
-    read_json_file.open(home_dir + appmanager_folder + json_file_name);
 
-    getline(read_json_file, json_content);
+    if (!app.is_array() && app.empty()) {
 
-    read_json_file.close();
-
-    if (json_content == "[]") {
-
+        app = json::array();
         log.error("Empty json file can not reset");
         empty_app_info();
         return;
@@ -416,11 +416,7 @@ void App::reset_command() {
 
     if (is_confirmed) {
 
-        write_json_file.open(home_dir + appmanager_folder + json_file_name);
-
-        write_json_file << "[]" << std::endl;
-
-        write_json_file.close();
+        app.clear();
 
         log.success("All app commands cleared");
         print(success + "Reset successfully");
