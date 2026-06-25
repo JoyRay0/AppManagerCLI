@@ -20,9 +20,10 @@ class App{
         std::ofstream write_json_file;
         std::ifstream read_json_file;
 
-        std::string json_file_name = "app_commands.json";
-        std::string appmanager_folder = "appmanager/";
         std::string home_dir;
+        const std::string json_file_name = "app_commands.json";
+        const std::string root_folder = "/appmanager/";
+
 
         std::string info = "[ℹ] ";
         std::string success = "[✔] ";
