@@ -23,7 +23,7 @@ int main() {
 
     }
 
-    if (std::filesystem::exists(header + fileName + ".h") ||
+    if (std::filesystem::exists(header + fileName + ".hpp") ||
         std::filesystem::exists(implementation + fileName + ".cpp")) {
 
         std::cout << "File already exists" << std::endl;
@@ -31,7 +31,7 @@ int main() {
 
     }
 
-    headerFile.open(header + fileName + ".h", std::ios::app);
+    headerFile.open(header + fileName + ".hpp", std::ios::app);
     implFile.open(implementation + fileName + ".cpp", std::ios::app);
 
     if (!headerFile.is_open() || !implFile.is_open()) {
@@ -49,7 +49,7 @@ int main() {
     headerFile << "class " + fileName + "{\n\n};" << std::endl;
 
     //implementation
-    implFile << "#include \"" << fileName << ".h\"" << std::endl;
+    implFile << "#include \"" << fileName << ".hpp\"" << std::endl;
     implFile << "#include " << "<string>" << std::endl;
     implFile << "#include " << "<filesystem>" << std::endl;
 
