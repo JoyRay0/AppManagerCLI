@@ -61,7 +61,7 @@ int main(const int argc, const char* argv[]) {
 
         case ARGV::RUN:
 
-            if (argc > 3) {
+            if (argc == 3) {
 
                 app.run_command(argv[2]);
 
@@ -77,7 +77,7 @@ int main(const int argc, const char* argv[]) {
 
         case ARGV::DELETE:
 
-            if (argc > 3) {
+            if (argc == 3) {
 
                 app.delete_command(argv[2]);
 
@@ -104,8 +104,8 @@ int main(const int argc, const char* argv[]) {
 
         case ARGV::LOG:
 
-            if (argc > 3) {
-                
+            if (argc == 3) {
+
                 app.log_clear(argv[2]);
 
             }else {
