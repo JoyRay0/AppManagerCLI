@@ -61,13 +61,32 @@ int main(const int argc, const char* argv[]) {
 
         case ARGV::RUN:
 
-            app.run_command(argv[2]);
+            if (argc > 3) {
+
+                app.run_command(argv[2]);
+
+            }else {
+
+                std::cout << "Invalid Command" << std::endl;
+                std::cout << "Use : appmanager help" << std::endl;
+
+            }
+
 
             break;
 
         case ARGV::DELETE:
 
-            app.delete_command(argv[2]);
+            if (argc > 3) {
+
+                app.delete_command(argv[2]);
+
+            }else {
+
+                std::cout << "Invalid Command" << std::endl;
+                std::cout << "Use : appmanager help" << std::endl;
+
+            }
 
             break;
 
@@ -85,7 +104,16 @@ int main(const int argc, const char* argv[]) {
 
         case ARGV::LOG:
 
-            app.log_clear(argv[2]);
+            if (argc > 3) {
+                
+                app.log_clear(argv[2]);
+
+            }else {
+
+                std::cout << "Invalid Command" << std::endl;
+                std::cout << "Use : appmanager help" << std::endl;
+
+            }
 
             break;
 
