@@ -8,6 +8,8 @@
 
 App::App() {
 
+    std::string json_content;
+
     //======================================
     // Get home directories
     //======================================
@@ -18,17 +20,24 @@ App::App() {
     // Creating folders
     //===================================
 
-    std::filesystem::create_directories(home_dir + appmanager_folder);
-    std::filesystem::create_directories(home_dir + appmanager_folder + "Logs/");
+    std::filesystem::create_directories(home_dir + root_folder);
+    std::filesystem::create_directories(home_dir + root_folder + "Logs");
 
-    if (!write_json_file.is_open()) {
+    read_json_file.open(home_dir + root_folder + json_file_name);
 
-        write_json_file.open(home_dir + appmanager_folder + json_file_name);
+    read_json_file >> json_content;
+
+    read_json_file.close();
+
+    if (json_content.empty()) {
+
+        write_json_file.open(home_dir + root_folder + json_file_name);
+
         write_json_file << "[]" << std::endl;
 
-    }
+        write_json_file.close();
 
-    if (write_json_file.is_open()) write_json_file.close();
+    }
 
 }
 
@@ -49,11 +58,14 @@ void App::home() {
     std::string app_title = "";
     std::vector<std::string> app_commands;
 
-    json app = json::parse(json_file_name);
+    json app;
 
-    if (!app.is_array() && app.empty()) {
+    read_json_file.open(home_dir + root_folder + json_file_name);
+    read_json_file >> app;
+    read_json_file.close();
 
-        app = json::array();
+    if (app.is_array() && app.empty()) {
+
         log.error("No app data found");
         empty_app_info();
         return;
@@ -112,6 +124,8 @@ void App::home() {
 
     for (const std::string& command : app_commands) {
 
+        log.command("[" + command + "]" + "executed");
+        print(command);
         std::system(command.c_str());
 
     }
@@ -130,7 +144,7 @@ void App::run_command(const std::string& id) {
     std::string app_title = "";
     std::vector<std::string> app_commands;
 
-    json app = json::parse(json_file_name);
+    json app;
 
 
     if (!check_id(app_id)) {
@@ -143,6 +157,10 @@ void App::run_command(const std::string& id) {
     //=========================================
     // Checking empty JSON
     //=========================================
+
+    read_json_file.open(home_dir + root_folder + json_file_name);
+    read_json_file >> app;
+    read_json_file.close();
 
     if (app.is_array() && app.empty()) {
 
@@ -191,6 +209,8 @@ void App::run_command(const std::string& id) {
 
     for (const std::string& command : app_commands) {
 
+        log.command("[" + command + "]" + "executed");
+        print(command);
         std::system(command.c_str());
 
     }
@@ -211,8 +231,8 @@ void App::add_command() {
     bool is_inside = false;
     bool is_duplicate_id = false;
 
-    json app;   //Creating object
-    json root = json::parse(json_file_name); //Opening json file
+    json app;   //store JSON
+    json new_app;
 
 
     //==========================================
@@ -280,17 +300,16 @@ void App::add_command() {
 
     }//loop
 
-    if (!root.is_array()) {
-
-        root = json::array();
-
-    }
 
     //==================================
     // Checking duplicate id
     //==================================
 
-    for (auto& item : root) {
+    read_json_file.open(home_dir + root_folder + json_file_name);
+    read_json_file >> app;
+    read_json_file.close();
+
+    for (auto& item : app) {
 
         if (item["app_id"].get<std::string>() == app_id) {
 
@@ -312,11 +331,17 @@ void App::add_command() {
     // Creating JSON object
     //============================
 
-    app["app_id"] = app_id;
-    app["app_title"] = app_title;
-    app["app_command"] = commands;
+    new_app["app_id"] = app_id;
+    new_app["app_title"] = app_title;
+    new_app["app_command"] = commands;
 
-    root.push_back(app);
+    app.push_back(new_app);
+
+    write_json_file.open(home_dir + root_folder + json_file_name);
+
+    write_json_file << app.dump(4);
+
+    write_json_file.close();
 
     log.success("Application saved successfully");
     print(success + "Application saved successfully");
@@ -329,10 +354,10 @@ void App::delete_command(const std::string& id) {
     // Initialized variable
     //=================================
 
-    json app = json::parse(json_file_name);
+    json app;
 
     std::string app_id = "";
-    bool is_app_id_found = false;
+    bool is_deleted = false;
 
     if (!check_id(id)) {
 
@@ -342,26 +367,46 @@ void App::delete_command(const std::string& id) {
 
     }
 
+    read_json_file.open(home_dir + root_folder + json_file_name);
+
+    read_json_file >> app;
+
+    read_json_file.close();
+
+    //=======================================
+    // Checking empty app list
+    //=======================================
+
+    if (app.is_array() && app.empty()) {
+
+        log.error("Empty app list");
+        empty_app_info();
+        return;
+
+    }
+
     //========================================
     // Checking app id in JSON file
     //========================================
 
-    for (auto& item : app) {
+    for (int i = 0; i < app.size(); i++) {
 
-        if (item["app_id"].get<std::string>() == id) {
+        if (app[i]["app_id"].get<std::string>() == id) {
 
-            is_app_id_found = true;
+            app.erase(app.begin() + i);
+
+            is_deleted = true;
             break;
 
         }else {
 
-            is_app_id_found = false;
+            is_deleted = false;
 
         }
 
     }
 
-    if (!is_app_id_found) {
+    if (!is_deleted) {
 
         log.error("[" + app_id + "]" + "Id not found");
         print(error + "Id not found");
@@ -373,7 +418,14 @@ void App::delete_command(const std::string& id) {
     // Removing object from JSON array via id
     //============================================
 
-    app.erase(id);
+    write_json_file.open(home_dir + root_folder + json_file_name);
+
+    write_json_file << app.dump(4);
+
+    write_json_file.close();
+
+    log.success("Delete successfully");
+    print(success + "Delete successfully");
 
 
 }
@@ -386,12 +438,14 @@ void App::reset_command() {
 
     std::string user_confirm;
     bool is_confirmed = false;
-    json app = json::parse(json_file_name);
+    json app;
 
+    read_json_file.open(home_dir + root_folder + json_file_name);
+    read_json_file >> app;
+    read_json_file.close();
 
-    if (!app.is_array() && app.empty()) {
+    if (app.is_array() && app.empty()) {
 
-        app = json::array();
         log.error("Empty json file can not reset");
         empty_app_info();
         return;
@@ -415,6 +469,10 @@ void App::reset_command() {
 
         app.clear();
 
+        write_json_file.open(home_dir + root_folder + json_file_name);
+        write_json_file << app;
+        write_json_file.close();
+
         log.success("All app commands cleared");
         print(success + "Reset successfully");
 
@@ -425,6 +483,7 @@ void App::reset_command() {
 
     }
 
+
 }
 
 void App::list() {
@@ -433,11 +492,18 @@ void App::list() {
     // Initialize variable
     //=============================
 
-    json app = json::parse(json_file_name);
+    json app;
 
-    if (!app.is_array() && app.empty()) {
+    //======================================
+    // Checking empty JSON data
+    //======================================
 
-        app = json::array();
+    read_json_file.open(home_dir + root_folder + json_file_name);
+    read_json_file >> app;
+    read_json_file.close();
+
+    if (app.is_array() && app.empty()) {
+
         log.error("Empty app list found");
         empty_app_info();
         return;
@@ -499,7 +565,7 @@ void App::log_clear(const std::string& text) {
 
     if (is_confirmed) {
 
-        std::filesystem::remove_all(home_dir + appmanager_folder + "/Logs");
+        std::filesystem::remove_all(home_dir + root_folder + "/Logs");
 
         log.success("All log files deleted successfully");
         print(success + "Logs deleted successfully");
@@ -560,6 +626,7 @@ void App::help() {
     help_print("reset", "Hard-reset the entire the application");
     help_print("list", "Display the comprehensive list of available commands and titles");
     help_print("log clear", "Removes all log files generated by AppManager and resets the log directory");
+    help_print("versio or -v", "Toc check the current version");
 
 
 }
