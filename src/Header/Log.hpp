@@ -7,6 +7,7 @@ class Log{
 
     private:
 
+        std::string home_dir;
         std::ofstream file;
         std::string folder = "appmanager/Logs/";
 

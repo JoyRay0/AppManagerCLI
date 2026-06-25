@@ -9,13 +9,13 @@
 
 Log::Log() {
 
-    const std::string home = std::getenv("HOME") ? std::getenv("HOME") : "";
+    home_dir = std::getenv("HOME") ? std::getenv("HOME") : "";
 
-    std::filesystem::create_directories(home + folder);
+    std::filesystem::create_directories(home_dir +  "/" + folder);
 
     const std::string filePath = getFileName();
 
-    file.open(folder + filePath);
+    file.open(home_dir + "/" +folder + filePath);
 
     if (!file.is_open()) {
 
@@ -67,18 +67,30 @@ void Log::info(const std::string &message) {
 
 void Log::success(const std::string &message) {
 
+    file.open(home_dir + "/" + folder + getFileName(), std::ios::app);
+
     file << "[" << getTime() << "]" << " >> " << "[✔]" << " >> " << message << std::endl;
+
+    file.close();
 
 }
 
 void Log::error(const std::string &message) {
 
+    file.open(home_dir + "/" + folder + getFileName(), std::ios::app);
+
     file << "[" << getTime() << "]" << " >> " << "[✖]" << " >> " << message << std::endl;
+
+    file.close();
 
 }
 
 void Log::command(const std::string &message) {
 
+    file.open(home_dir + "/" + folder + getFileName(), std::ios::app);
+
     file << "[" << getTime() << "]" << " >> " << "[COMMAND]" << " >> " << message << std::endl;
+
+    file.close();
 
 }
