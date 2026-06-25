@@ -4,7 +4,7 @@ project(AppManagerCLI)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_executable(AppManagerCLI
+add_executable(appmanager
         src/Header/Log.hpp
         src/Implementation/Log.cpp
         appmanager.cpp
@@ -14,7 +14,7 @@ add_executable(AppManagerCLI
         src/lib/tabulate.hpp
         )
 
-target_include_directories(AppManagerCLI PRIVATE
+target_include_directories(appmanager PRIVATE
         src/Header
         src/Implementation
         src/lib
