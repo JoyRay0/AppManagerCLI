@@ -1,4 +1,4 @@
-#include "../Header/Log.h"
+#include "Log.hpp"
 
 #include <string>
 #include <filesystem>

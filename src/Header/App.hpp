@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Log.h"
+#include "Log.hpp"
 #include "tabulate.hpp"
 #include "json.hpp"
 
