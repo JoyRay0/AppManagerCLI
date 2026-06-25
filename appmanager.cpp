@@ -12,6 +12,7 @@ enum class ARGV {
     RESET,
     LIST,
     LOG,
+    VERSION,
     INVALID
 
 };
@@ -25,6 +26,7 @@ ARGV string_to_argv(const std::string& argv_text) {
     if (argv_text == "reset") return ARGV::RESET;
     if (argv_text == "list") return ARGV::LIST;
     if (argv_text == "log") return ARGV::LOG;
+    if (argv_text == "version" || argv_text == "-v") return ARGV::VERSION;
 
     return ARGV::INVALID;
 
@@ -32,9 +34,14 @@ ARGV string_to_argv(const std::string& argv_text) {
 
 int main(const int argc, const char* argv[]) {
 
+    //================================
+    // Initialize variable
+    //================================
+
     Log logeer;
     App app;
     auto cmd = ARGV::HOME;
+    const std::string APP_VERSION = "1.0.6";
 
     if (argc > 1) cmd = string_to_argv(argv[1]);
 
@@ -79,6 +86,12 @@ int main(const int argc, const char* argv[]) {
         case ARGV::LOG:
 
             app.log_clear(argv[2]);
+
+            break;
+
+        case ARGV::VERSION:
+
+            app.version(APP_VERSION);
 
             break;
 
