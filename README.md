@@ -4,7 +4,6 @@ AppManagerCLI is a simple command-line tool that allows you to add, manage, and 
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20macOS-orange)]()
-[![Language: PHP](https://img.shields.io/badge/language-PHP-777BB4.svg?style=flat&logo=php&logoColor=white)]()
 
 ## What is AppManagerCLI?
 
