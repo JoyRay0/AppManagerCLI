@@ -13,6 +13,7 @@ enum class ARGV {
     LIST,
     LOG,
     VERSION,
+    HELP,
     INVALID
 
 };
@@ -27,6 +28,7 @@ ARGV string_to_argv(const std::string& argv_text) {
     if (argv_text == "list") return ARGV::LIST;
     if (argv_text == "log") return ARGV::LOG;
     if (argv_text == "version" || argv_text == "-v") return ARGV::VERSION;
+    if (argv_text == "help" || argv_text == "-h" || argv_text == "-help" || argv_text == "--help") return ARGV::HELP;
 
     return ARGV::INVALID;
 
@@ -120,6 +122,12 @@ int main(const int argc, const char* argv[]) {
         case ARGV::VERSION:
 
             app.version(APP_VERSION);
+
+            break;
+
+        case ARGV::HELP:
+
+            app.help();
 
             break;
 
