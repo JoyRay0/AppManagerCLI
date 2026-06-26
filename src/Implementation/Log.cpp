@@ -59,17 +59,12 @@ std::string Log::getFileName() {
 
 }
 
-void Log::info(const std::string &message) {
-
-    file << "[" << getTime() << "]" << " >> " << "[ℹ]" << " >> " << message << std::endl;
-
-}
 
 void Log::success(const std::string &message) {
 
     file.open(home_dir + "/" + folder + getFileName(), std::ios::app);
 
-    file << "[" << getTime() << "]" << " >> " << "[✔]" << " >> " << message << std::endl;
+    file << "[" << getTime() << "]" << " >> " << "[✔]" << " >> " << message << "\n";
 
     file.close();
 
@@ -79,7 +74,7 @@ void Log::error(const std::string &message) {
 
     file.open(home_dir + "/" + folder + getFileName(), std::ios::app);
 
-    file << "[" << getTime() << "]" << " >> " << "[✖]" << " >> " << message << std::endl;
+    file << "[" << getTime() << "]" << " >> " << "[✖]" << " >> " << message << "\n";
 
     file.close();
 
@@ -89,7 +84,7 @@ void Log::command(const std::string &message) {
 
     file.open(home_dir + "/" + folder + getFileName(), std::ios::app);
 
-    file << "[" << getTime() << "]" << " >> " << "[COMMAND]" << " >> " << message << std::endl;
+    file << "[" << getTime() << "]" << " >> " << "[COMMAND]" << " >> " << message << "\n";
 
     file.close();
 
