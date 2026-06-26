@@ -20,7 +20,6 @@ class Log{
         Log();
         ~Log();
 
-        void info(const std::string& message);
         void success(const std::string& message);
         void error(const std::string& message);
         void command(const std::string& message);
