@@ -126,7 +126,7 @@ void App::home() {
 
     for (const std::string& command : app_commands) {
 
-        log.command("[" + command + "]" + "executed");
+        log.command("[" + command + "] " + "executed");
         print(">> " + command);
         std::system(command.c_str());
 
@@ -211,7 +211,7 @@ void App::run_command(const std::string& id) {
 
     for (const std::string& command : app_commands) {
 
-        log.command("[" + command + "]" + "executed");
+        log.command("[" + command + "] " + "executed");
         print(">> " + command);
         std::system(command.c_str());
 
@@ -507,7 +507,7 @@ void App::list() {
     read_json_file >> app;
     read_json_file.close();
 
-    if (app.is_array() && app.empty()) {
+    if (!app.is_array() || app.empty()) {
 
         log.error("Empty app list found");
         empty_app_info();
@@ -530,7 +530,7 @@ void App::list() {
 
             }
 
-            command += cmd;
+            command += cmd.get<std::string>();
 
         }
 
@@ -538,6 +538,10 @@ void App::list() {
             data["app_id"].get<std::string>(),
             data["app_title"].get<std::string>(),
             command});
+
+        std::cout << table << "\n";
+
+        log.success("App list loaded successfully");
 
     }
 
@@ -548,10 +552,10 @@ void App::log_clear(const std::string& text) {
     std::string user_confirm;
     bool is_confirmed = false;
 
-    if (text != "clear") {
+    if (text != "-c") {
 
         log.error("Wrong command for clear all logs");
-        print(info + "Use : appmanager log clear");
+        print(info + "Use : appmanager log -c");
 
     }
 
@@ -647,7 +651,7 @@ void App::help() {
     help_print("delete <id>", "Remove an application from AppManager");
     help_print("reset", "Reset AppManager and remove all saved applications");
     help_print("list", "Show all registered applications and their IDs");
-    help_print("log clear", "Clear all log files and reset the log directory");
+    help_print("log -c", "Clear all log files and reset the log directory");
     help_print("version | -v", "Display the current AppManager version");
 
 }
