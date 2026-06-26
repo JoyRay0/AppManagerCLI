@@ -34,6 +34,7 @@ class App{
         void help_print(const std::string& cmd_name, const std::string& description);
         void empty_app_info();
         bool check_id(const std::string& id);
+        std::string sanitize_id(const std::string& id);
 
 
     public:

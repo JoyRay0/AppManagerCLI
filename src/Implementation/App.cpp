@@ -73,12 +73,14 @@ void App::home() {
     }
 
 
+    std::cout << " " << std::endl;
     for (auto& data : app) {
 
         output(data["app_id"].get<std::string>(), data["app_title"].get<std::string>());
 
     }
 
+    std::cout << " " << std::endl;
     std::cout << ">";
     getline(std::cin, user_choice);
 
@@ -125,7 +127,7 @@ void App::home() {
     for (const std::string& command : app_commands) {
 
         log.command("[" + command + "]" + "executed");
-        print(command);
+        print(">> " + command);
         std::system(command.c_str());
 
     }
@@ -147,7 +149,7 @@ void App::run_command(const std::string& id) {
     json app;
 
 
-    if (!check_id(app_id)) {
+    if (!check_id(sanitize_id(id))) {
 
         log.error("Empty app id found");
         print(error + "Invalid id");
@@ -176,7 +178,7 @@ void App::run_command(const std::string& id) {
 
     for (auto& data : app) {
 
-        if (data["app_id"].get<std::string>() == id) {
+        if (data["app_id"].get<std::string>() == sanitize_id(id)) {
 
             is_app_id_found = true;
             app_title = data["app_title"];
@@ -210,7 +212,7 @@ void App::run_command(const std::string& id) {
     for (const std::string& command : app_commands) {
 
         log.command("[" + command + "]" + "executed");
-        print(command);
+        print(">> " + command);
         std::system(command.c_str());
 
     }
@@ -240,6 +242,7 @@ void App::add_command() {
     //==========================================
 
     //app id
+    std::cout << " " << std::endl;
     std::cout << "Id :" << std::endl;
     std::cout << ">";
     getline(std::cin, app_id);
@@ -252,6 +255,7 @@ void App::add_command() {
     }
 
     //app title
+    std::cout << " " << std::endl;
     std::cout << "Title :" << std::endl;
     std::cout << ">";
     getline(std::cin, app_title);
@@ -264,6 +268,7 @@ void App::add_command() {
     }
 
     //app command
+    std::cout << " " << std::endl;
     std::cout << R"(Commands (use double quotes and spaces to separate commands. e.g: "A" "B" "C" "D 'd'"):)" << std::endl;
     std::cout << ">";
     getline(std::cin, app_command);
@@ -359,7 +364,7 @@ void App::delete_command(const std::string& id) {
     std::string app_id = "";
     bool is_deleted = false;
 
-    if (!check_id(id)) {
+    if (!check_id(sanitize_id(id))) {
 
         log.error("Empty id found");
         print(error + "Invalid id");
@@ -391,7 +396,7 @@ void App::delete_command(const std::string& id) {
 
     for (int i = 0; i < app.size(); i++) {
 
-        if (app[i]["app_id"].get<std::string>() == id) {
+        if (app[i]["app_id"].get<std::string>() == sanitize_id(id)) {
 
             app.erase(app.begin() + i);
 
@@ -579,18 +584,17 @@ void App::log_clear(const std::string& text) {
 
 }
 
-bool App::check_id(const std::string& id) {
+bool  App::check_id(const std::string& id) {
 
     bool is_valid_id = false;
 
     if (id.empty()) is_valid_id = false;
 
-    for (const char number : id) {
+    for (const char c : id) {
 
-        if (!isdigit(number)) {
+        if (!isdigit(c)) {
 
             is_valid_id = false;
-            break;
 
         }else {
 
@@ -601,6 +605,24 @@ bool App::check_id(const std::string& id) {
     }
 
     return is_valid_id;
+
+}
+
+std::string App::sanitize_id(const std::string &id) {
+
+    std::string _id = "";
+
+    for (const char c : id) {
+
+        if (isdigit(c)) {
+
+            _id += c;
+
+        }
+
+    }
+
+    return _id;
 
 }
 
@@ -627,7 +649,7 @@ void App::help() {
     help_print("list", "Show all registered applications and their IDs");
     help_print("log clear", "Clear all log files and reset the log directory");
     help_print("version | -v", "Display the current AppManager version");
-    
+
 }
 
 void App::output(const std::string& id, const std::string& title) {
@@ -643,7 +665,7 @@ void App::output(const std::string& id, const std::string& title) {
 
 void App::print(const std::string& message) {
 
-    std::cout << "\n" << std::endl;
+    //std::cout << "\n" << std::endl;
     std::cout << message << std::endl;
 
 }
