@@ -8,7 +8,7 @@
 #include <fstream>
 
 using namespace tabulate;
-using json = nlohmann::json;
+using ordered_json = nlohmann::ordered_json;
 
 class App{
 

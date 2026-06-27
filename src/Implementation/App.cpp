@@ -58,7 +58,7 @@ void App::home() {
     std::string app_title = "";
     std::vector<std::string> app_commands;
 
-    json app;
+    ordered_json app;
 
     read_json_file.open(home_dir + root_folder + json_file_name);
     read_json_file >> app;
@@ -127,7 +127,7 @@ void App::home() {
     for (const std::string& command : app_commands) {
 
         log.command("[" + command + "] " + "executed");
-        print(">> " + command);
+        print("[*] " + command);
         std::system(command.c_str());
 
     }
@@ -146,7 +146,7 @@ void App::run_command(const std::string& id) {
     std::string app_title = "";
     std::vector<std::string> app_commands;
 
-    json app;
+    ordered_json app;
 
 
     if (!check_id(sanitize_id(id))) {
@@ -233,8 +233,8 @@ void App::add_command() {
     bool is_inside = false;
     bool is_duplicate_id = false;
 
-    json app;   //store JSON
-    json new_app;
+    ordered_json app;   //store JSON
+    ordered_json new_app;
 
 
     //==========================================
@@ -269,7 +269,7 @@ void App::add_command() {
 
     //app command
     std::cout << " " << std::endl;
-    std::cout << R"(Commands (use double quotes and spaces to separate commands. e.g: "A" "B" "C" "D 'd'"):)" << std::endl;
+    std::cout << R"(Commands (enclose each command in double quotes. Single quotes are allowed inside double quotes. Example: "A" "B" "C" "D 'd'"): )" << std::endl;
     std::cout << ">";
     getline(std::cin, app_command);
 
@@ -359,7 +359,7 @@ void App::delete_command(const std::string& id) {
     // Initialized variable
     //=================================
 
-    json app;
+    ordered_json app;
 
     std::string app_id = "";
     bool is_deleted = false;
@@ -443,7 +443,7 @@ void App::reset_command() {
 
     std::string user_confirm;
     bool is_confirmed = false;
-    json app;
+    ordered_json app;
 
     read_json_file.open(home_dir + root_folder + json_file_name);
     read_json_file >> app;
@@ -497,7 +497,7 @@ void App::list() {
     // Initialize variable
     //=============================
 
-    json app;
+    ordered_json app;
 
     //======================================
     // Checking empty JSON data
