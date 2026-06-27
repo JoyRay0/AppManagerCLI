@@ -497,6 +497,7 @@ void App::list() {
     // Initialize variable
     //=============================
 
+    Table table;
     ordered_json app;
 
     //======================================
@@ -539,11 +540,11 @@ void App::list() {
             data["app_title"].get<std::string>(),
             command});
 
-        std::cout << table << "\n";
+    }//loop
 
-        log.success("App list loaded successfully");
+    std::cout << table << "\n";
 
-    }
+    log.success("App list loaded successfully");
 
 }
 
