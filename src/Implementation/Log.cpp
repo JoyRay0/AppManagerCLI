@@ -15,7 +15,7 @@ Log::Log() {
 
     const std::string filePath = getFileName();
 
-    file.open(home_dir + "/" +folder + filePath);
+    file.open(home_dir + "/" +folder + filePath, std::ios::app);
 
     if (!file.is_open()) {
 
