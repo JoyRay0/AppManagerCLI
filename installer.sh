@@ -12,7 +12,7 @@ NC="\033[0m" #No color
 GITHUB_USER="JoyRay0"
 REPO_NAME="AppManagerCLI"
 VERSION="v1.0.5"
-DOWNLOAD_URL="https://github.com/${GITHUB_USER}/${REPO_NAME}/releases/download/${VERSION}/app"
+DOWNLOAD_URL="https://github.com/${GITHUB_USER}/${REPO_NAME}/releases/download/${VERSION}/appmanager"
 INSTALL_PATH="/usr/local/bin/appmanager"
 
 
