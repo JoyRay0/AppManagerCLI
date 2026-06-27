@@ -151,7 +151,7 @@ $ appmanager list
 
 ```
 
-### 🗑 Delete the App
+### 🗑 Delete the App via ID
 
 ```bash
 $ appmanager delete 1
