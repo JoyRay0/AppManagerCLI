@@ -197,7 +197,7 @@ void App::run_command(const std::string& id) {
 
     if (!is_app_id_found) {
 
-        log.error("[" + app_id + "]" + " App id not found");
+        log.error("[" + id + "]" + " App id not found");
         print(error + "Invalid id");
         return;
 
@@ -413,7 +413,7 @@ void App::delete_command(const std::string& id) {
 
     if (!is_deleted) {
 
-        log.error("[" + app_id + "]" + "Id not found");
+        log.error("[" + id + "]" + "Id not found");
         print(error + "Id not found");
         return;
 
@@ -576,6 +576,8 @@ void App::log_clear(const std::string& text) {
 
         std::filesystem::remove_all(home_dir + root_folder + "/Logs");
 
+        std::filesystem::create_directories(home_dir + root_folder + "/Logs");
+
         log.success("All log files deleted successfully");
         print(success + "Logs deleted successfully");
 
@@ -653,6 +655,7 @@ void App::help() {
     help_print("list", "Show all registered applications and their IDs");
     help_print("log -c", "Clear all log files and reset the log directory");
     help_print("version | -v", "Display the current AppManager version");
+    help_print("help | -h", "Display the list of available commands");
 
 }
 
