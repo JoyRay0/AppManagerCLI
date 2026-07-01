@@ -35,7 +35,6 @@ class App{
         bool check_id(const std::string& id);
         std::string sanitize_id(const std::string& id);
 
-
     public:
         App();
         ~App();

@@ -14,7 +14,6 @@ class Log{
         std::string getTime();
         std::string getFileName();
 
-
     public:
 
         Log();
@@ -23,6 +22,5 @@ class Log{
         void success(const std::string& message);
         void error(const std::string& message);
         void command(const std::string& message);
-
 
 };
