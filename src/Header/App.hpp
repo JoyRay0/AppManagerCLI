@@ -6,6 +6,7 @@
 
 #include <string>
 #include <fstream>
+#include <sys/stat.h>
 
 using namespace tabulate;
 using ordered_json = nlohmann::ordered_json;

@@ -21,6 +21,9 @@ App::App() {
     //===================================
 
     std::filesystem::create_directories(home_dir + root_folder);
+
+    chmod((home_dir + root_folder).c_str(), 0700);
+
     std::filesystem::create_directories(home_dir + root_folder + "Logs");
 
     read_json_file.open(home_dir + root_folder + json_file_name);
@@ -228,13 +231,13 @@ void App::add_command() {
     std::string app_id = "";
     std::string app_title = "";
     std::string app_command = "";
-    std::vector<std::string> commands;
-    std::string tem_command_data = "";
+    std::vector<std::string> commands;      /* Commnad list */
+    std::string temp_command_data = "";      /* Temporary command data */
     bool is_inside = false;
     bool is_duplicate_id = false;
 
-    ordered_json app;   //store JSON
-    ordered_json new_app;
+    ordered_json app;
+    ordered_json new_app;       /* Creating new JSON */
 
 
     //==========================================
@@ -290,8 +293,8 @@ void App::add_command() {
 
             if (is_inside) {
 
-                commands.push_back(tem_command_data);
-                tem_command_data = "";
+                commands.push_back(temp_command_data);
+                temp_command_data = "";
 
             }
 
@@ -299,7 +302,7 @@ void App::add_command() {
 
         }else if (is_inside) {
 
-            tem_command_data = tem_command_data + c_command;
+            temp_command_data = temp_command_data + c_command;
 
         }
 
