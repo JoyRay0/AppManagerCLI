@@ -9,7 +9,7 @@ class Log{
 
         std::string home_dir;
         std::ofstream file;
-        std::string folder = "appmanager/Logs/";
+        const std::string folder = "appmanager/Logs/";
 
         std::string getTime();
         std::string getFileName();
