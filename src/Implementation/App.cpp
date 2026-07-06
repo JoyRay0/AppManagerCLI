@@ -56,7 +56,6 @@ void App::home() {
 
     std::string user_choice;
     std::string json_content = "";
-    bool is_valid_digit = false;
     bool is_app_id_found = false;
     std::string app_title = "";
     std::vector<std::string> app_commands;
