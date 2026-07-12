@@ -493,6 +493,44 @@ void App::reset_command() {
 
 }
 
+void App::remove_application() {
+
+    bool is_application_removed = false;
+    const std::vector<std::string> path = {
+
+        "/usr/local/bin/appmanager",
+        "/opt/homebrew/bin/appmanager"
+
+    };
+
+    if (std::filesystem::exists(path[0])) {
+
+        const int status = std::system("sudo rm /usr/local/bin/appmanager > /dev/null 2>&1");
+
+        (status == 0) ? is_application_removed = true : is_application_removed = false;
+
+    }else if (std::filesystem::exists(path[1])) {
+
+        const int status = std::system("sudo rm /opt/homebrew/bin/appmanager > /dev/null 2>&1");
+
+        (status == 0) ? is_application_removed = true : is_application_removed = false;
+
+    }
+
+    if (is_application_removed) {
+
+        log.success("appmanager remove successfully");
+        print(success + "appmanager remove successfully");
+
+    }else {
+
+        log.error("appmanager remove failed");
+        print(error + "appmanager remove failed");
+
+    }
+
+}
+
 void App::list() {
 
     //=============================
