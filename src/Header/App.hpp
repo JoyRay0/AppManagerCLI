@@ -24,7 +24,6 @@ class App{
         const std::string json_file_name = "app_commands.json";
         const std::string root_folder = "/appmanager/";
 
-
         std::string info = "[ℹ] ";
         std::string success = "[✔] ";
         std::string error = "[✖] ";
@@ -45,6 +44,7 @@ class App{
         void run_command(const std::string& id);
         void delete_command(const std::string& id);
         void reset_command();
+        void remove_application();
         void log_clear(const std::string& text);
         void list();
         void version(const std::string& version);
