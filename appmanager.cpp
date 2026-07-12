@@ -14,7 +14,8 @@ enum class ARGV {
     LOG,
     VERSION,
     HELP,
-    INVALID
+    INVALID,
+    REMOVE
 
 };
 
@@ -29,6 +30,7 @@ ARGV string_to_argv(const std::string& argv_text) {
     if (argv_text == "log") return ARGV::LOG;
     if (argv_text == "version" || argv_text == "-v") return ARGV::VERSION;
     if (argv_text == "help" || argv_text == "-h") return ARGV::HELP;
+    if (argv_text == "remove" || argv_text == "-r") return ARGV::REMOVE;
 
     return ARGV::INVALID;
 
@@ -134,6 +136,12 @@ int main(const int argc, const char* argv[]) {
 
             std::cout << "Invalid Command" << std::endl;
             std::cout << "Use : appmanager help" << std::endl;
+
+            break;
+
+        case ARGV::REMOVE:
+
+            app.remove_application();
 
             break;
 
